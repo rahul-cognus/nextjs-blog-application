@@ -20,7 +20,14 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'primary': '#2163e8',
+        'success': '#0cbc87',
+        'warning': '#f7c32e',
       },
+      fontSize: {
+        '10': '10px',
+        '15': '15px'
+      }
     },
   },
   plugins: [],
