@@ -36,7 +36,7 @@ const TopAlert = () => {
             </svg>
           </figure>
           <div className=" relative">
-            <div className=" text-white text-15">
+            <div className="flex flex-col md:flex-row  justify-center items-center text-white text-15">
               <p>Unlimited download! Starting from just $15/m</p>
               <Link
                 href={"/"}
