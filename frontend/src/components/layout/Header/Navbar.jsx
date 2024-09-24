@@ -2,19 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BsSearch, BsTextRight } from "react-icons/bs";
-const Navbar = () => {
+const Navbar = ({ isSticky }) => {
   return (
     <nav className="">
       <div className="container flex justify-between items-center">
         {/* Brand Logo */}
-        <Link href={"/"} className="block py-7">
-          <Image src="/images/logo.svg" width={139} height={30} alt="Logo" />
+        <Link href={"/"} className={`block ${isSticky ? "py-[14px]" : "py-7"}`}>
+          <Image
+            src="/images/logo.svg"
+            width={139}
+            height={30}
+            className={`${isSticky ? "h-[22px]" : "h-[30px]"} auto`}
+            alt="Logo"
+          />
           <Image
             src="/images/logo-light.svg"
             width={139}
             height={30}
             alt="Logo"
-            className="hidden"
+            className={`${isSticky ? "h-[22px]" : "h-[30px]"} auto hidden`}
           />
         </Link>
         {/* Right menu */}
