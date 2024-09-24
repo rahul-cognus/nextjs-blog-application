@@ -14,7 +14,7 @@ const TopNavbar = () => {
   return (
     <>
       <div className="container">
-        <div className="flex items-center justify-between my-2">
+        <div className="hidden md:flex items-center justify-between my-2">
           {/* Menu */}
           <ul className="flex items-center space-x-4 py-2">
             <li className="text-gray-700 hover:text-blue-500 text-sm">
