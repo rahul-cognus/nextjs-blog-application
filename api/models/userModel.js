@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema(
             required: [true, "user role is required"],
             default: "client",
             enum: ["client", "admin", "auther"]
+        },
+        resetLink: {
+            type: String,
+            default: ''
         }
     },
     { timestamps: true }
