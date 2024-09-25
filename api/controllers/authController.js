@@ -1,11 +1,15 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
-
+// Generate JWT token
+const generateToken = (user) => {
+    return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' })
+}
 //create user register user
 exports.registerController = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password, role } = req.body;
         // validation
         if (!username || !email || !password || username === '' || email === '' || password === '') {
             return res.status(400).send({
@@ -24,13 +28,15 @@ exports.registerController = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // save new user
-        const newUser = new userModel({ username, email, password: hashedPassword })
+        const newUser = new userModel({ username, email, password: hashedPassword, role });
+        const token = generateToken(newUser);
         try {
             await newUser.save();
             return res.status(201).send({
                 success: true,
                 message: "Register successful",
-                user
+                newUser,
+                token
             })
         } catch (error) {
             console.log(error);
@@ -51,4 +57,49 @@ exports.registerController = async (req, res) => {
 }
 
 // login user
-exports.loginController = () => { }
+exports.loginController = async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+        // validation
+        if (!email || !password || email === '' || password === '') {
+            return res.status(401).send({
+                success: false,
+                message: "Please provide email or password"
+            })
+        }
+        // check user
+        const validUser = await userModel.findOne({ email });
+        if (!validUser) {
+            return res.status(404).send({
+                success: false,
+                message: "User not found"
+            })
+        }
+        //check user password  | compare password
+        const validPassword = await bcrypt.compare(password, validUser.password);
+        if (!validPassword) {
+            return res.status(401).send({
+                success: false,
+                message: "Invalid Credentials"
+            })
+        }
+        // token
+        const token = generateToken(validUser);
+        const { password: pass, ...rest } = validUser._doc;
+        res.status(200).cookie('access_token', token, {
+            httpOnly: true
+        }).json({
+            success: true,
+            message: "Login Successfull",
+            rest
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            success: false,
+            message: "Error in Login",
+            error
+        })
+    }
+}

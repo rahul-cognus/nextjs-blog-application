@@ -25,6 +25,19 @@ exports.deleteUserController = () => {
 }
 
 // signout 
-exports.signOutController = () => {
+exports.signOutController = (req, res) => {
+    try {
+        res.clearCookie('access_token').status(200).json({
+            success: true,
+            message: "User has been Logout"
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in Logout",
+            error
+        })
+    }
 
 }
