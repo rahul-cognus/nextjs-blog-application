@@ -4,114 +4,12 @@ https://medium.com/@kanishksinghmaurya/reset-password-forget-password-implementa
 https://www.youtube.com/watch?v=kfw61IxDgW8
 
 
-PORT = 8080
-DEV_MODE = local
-MONGO_URI = mongodb://localhost:27017/blogzine_database
-JWT_SECRET = 4c0d608098b78d61cf5654965dab8b53632bf831dc6b43f29289411376ac107b
-RESET_PASSWORD_KEY = resetkeyscrect
+// PORT = 8080
+// DEV_MODE = local
+// MONGO_URI = mongodb://localhost:27017/blogzine_database
+// JWT_SECRET = 4c0d608098b78d61cf5654965dab8b53632bf831dc6b43f29289411376ac107b
+// RESET_PASSWORD_KEY = resetkeyscrect
 
-const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        match: [/\S+@\S+\.\S+/, 'is invalid'],
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 6,
-    },
-    role: {
-        type: String,
-        enum: ['client', 'admin'],
-        default: 'client',
-    },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
-}, { timestamps: true });
-
-module.exports = mongoose.model('User', userSchema);
-
-
-// Auth Controller (controllers/authController.js)
-// All functionality (password hashing, matching, token generation) will be handled here.
-
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
-const { sendEmail } = require('../utils/sendEmail');
-
-// Generate JWT token
-// const generateToken = (user) => {
-//     return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
-// };
-
-// // Register new user
-// exports.register = async (req, res) => {
-//     const { name, email, password, role } = req.body;
-//     try {
-//         // Hash password before saving user
-//         const hashedPassword = await bcrypt.hash(password, 12);
-
-//         const user = new User({
-//             name,
-//             email,
-//             password: hashedPassword,  // Save hashed password
-//             role,
-//         });
-
-//         await user.save();
-
-//         // Generate JWT token for the user
-//         const token = generateToken(user);
-
-//         res.status(201).json({ success: true, token });
-//     } catch (error) {
-//         res.status(400).json({ success: false, message: error.message });
-//     }
-// };
-
-// // Login user
-// exports.login = async (req, res) => {
-//     const { email, password } = req.body;
-//     try {
-//         // Find the user by email
-//         const user = await User.findOne({ email });
-
-//         if (!user) {
-//             return res.status(401).json({ message: 'Invalid credentials' });
-//         }
-
-//         // Compare the provided password with the hashed password in the DB
-//         const isMatch = await bcrypt.compare(password, user.password);
-
-//         if (!isMatch) {
-//             return res.status(401).json({ message: 'Invalid credentials' });
-//         }
-
-//         // Generate JWT token for the user
-//         const token = generateToken(user);
-
-//         res.status(200).json({ success: true, token });
-//     } catch (error) {
-//         res.status(500).json({ success: false, message: error.message });
-//     }
-// };
-
-// // Logout user
-// exports.logout = (req, res) => {
-//     // Handle session/cookie-based logout if necessary
-//     res.status(200).json({ success: true, message: 'Logged out successfully' });
-// };
 
 // Forget password
 // exports.forgotPassword = async (req, res) => {
@@ -233,27 +131,27 @@ module.exports = router;
 // Email Utility (utils/sendEmail.js)
 // Utility function for sending emails, e.g., password reset emails.
 
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
-exports.sendEmail = async (options) => {
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
+// exports.sendEmail = async (options) => {
+//     const transporter = nodemailer.createTransport({
+//         host: process.env.SMTP_HOST,
+//         port: process.env.SMTP_PORT,
+//         auth: {
+//             user: process.env.SMTP_USER,
+//             pass: process.env.SMTP_PASS,
+//         },
+//     });
 
-    const mailOptions = {
-        from: 'Admin <admin@example.com>',
-        to: options.email,
-        subject: options.subject,
-        text: options.message,
-    };
+//     const mailOptions = {
+//         from: 'Admin <admin@example.com>',
+//         to: options.email,
+//         subject: options.subject,
+//         text: options.message,
+//     };
 
-    await transporter.sendMail(mailOptions);
-};
+//     await transporter.sendMail(mailOptions);
+// };
 
 // .env
 MONGO_URI = mongodb://localhost:27017/blog-app
