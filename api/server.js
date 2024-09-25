@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 // router import
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 
 // ENV configuration
@@ -27,6 +28,7 @@ app.use(morgan("dev"));
 // routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/blog", blogRoutes);
+app.use("/api/v1/auth", authRoutes)
 
 
 // PORT

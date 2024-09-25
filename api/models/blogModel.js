@@ -4,17 +4,27 @@ const blogSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            require: [true, "title is required"],
+            required: [true, "title is required"],
+            unique: true,
+        },
+        slug: {
+            type: String,
+            required: [true, "Slug is require"],
+            unique: true
         },
         description: {
             type: String,
             required: [true, "description is require"],
         },
-        image: {
+        bannerimage: {
             type: String,
             required: [true, "image is require"],
         },
-        user: {
+        content: {
+            type: String,
+            required: [true, "Content is require"],
+        },
+        author: {
             type: mongoose.Types.ObjectId,
             ref: "User",
             require: [true, "user id is required"],
@@ -23,6 +33,11 @@ const blogSchema = new mongoose.Schema(
             type: mongoose.Types.ObjectId,
             ref: "Category"
         }],
+        status: {
+            type: String,
+            enum: ['draft', 'published', 'archived'],
+            default: 'draft', // Default status is 'draft'
+        },
         tags: [
             {
                 type: mongoose.Types.ObjectId,

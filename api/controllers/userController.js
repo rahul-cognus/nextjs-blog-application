@@ -3,17 +3,28 @@ const bcrypt = require("bcrypt");
 
 // controller
 
-//create user register user
-exports.registerController = () => {
 
-}
 
 // get all users
-exports.getAllUsers = () => {
+exports.getAllUsersController = () => {
+
+}
+// get user
+exports.getUserController = () => {
 
 }
 
-//login
-exports.loginController = () => {
+//update user
+exports.updateUserController = () => {
+
+}
+
+//deleteUser  user
+exports.deleteUserController = () => {
+
+}
+
+// signout 
+exports.signOutController = () => {
 
 }
