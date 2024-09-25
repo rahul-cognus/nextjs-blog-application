@@ -1,5 +1,14 @@
 //  User Model (models/User.js)
 // The User schema will only define the structure of the user, without any hooks or methods like hashing or comparing passwords.
+https://medium.com/@kanishksinghmaurya/reset-password-forget-password-implementation-using-node-js-mongodb-nodemailer-jwt-7b2fe9597ca1
+https://www.youtube.com/watch?v=kfw61IxDgW8
+
+
+PORT = 8080
+DEV_MODE = local
+MONGO_URI = mongodb://localhost:27017/blogzine_database
+JWT_SECRET = 4c0d608098b78d61cf5654965dab8b53632bf831dc6b43f29289411376ac107b
+RESET_PASSWORD_KEY = resetkeyscrect
 
 const mongoose = require('mongoose');
 
