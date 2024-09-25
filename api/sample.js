@@ -2,6 +2,8 @@
 // The User schema will only define the structure of the user, without any hooks or methods like hashing or comparing passwords.
 https://medium.com/@kanishksinghmaurya/reset-password-forget-password-implementation-using-node-js-mongodb-nodemailer-jwt-7b2fe9597ca1
 https://www.youtube.com/watch?v=kfw61IxDgW8
+https://github.com/arpitbbhayani/system-design-questions/blob/master/blogging-platform.md#problem-statement.
+https://www.yiiframework.com/doc/blog/1.1/en/start.design
 
 
 // PORT = 8080
