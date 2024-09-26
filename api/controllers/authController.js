@@ -110,6 +110,7 @@ exports.loginController = async (req, res) => {
         success: true,
         message: "Login Successfull",
         rest,
+        token
       });
   } catch (error) {
     console.log(error);
