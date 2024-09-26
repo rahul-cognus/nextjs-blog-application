@@ -1,13 +1,14 @@
 const express = require("express");
-const { updateUserController, deleteUserController, signOutController, getAllUsersController, getUserController } = require("../controllers/userController");
+const { updateUserController, deleteUserController, signOutController, getAllUsersController, getUserByIdController } = require("../controllers/userController");
+const { adminMiddleware } = require("../middlewares/adminMiddleware");
 
 //router object
 const router = express.Router();
 
 // GET ALL USERS || GET
-router.get("/getusers", getAllUsersController);
+router.get("/getAllUsers", adminMiddleware, getAllUsersController);
 // get user
-router.get('/:userId', getUserController);
+router.get('/getUserById/:userId', getUserByIdController);
 
 
 // update user
