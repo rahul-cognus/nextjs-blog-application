@@ -7,6 +7,79 @@
   --foreground: #171717;
 }
 
+/* predefined */
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1 {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #191a1f;
+}
+h1,
+.h1 {
+  font-size: calc(1.359375rem + 1.3125vw);
+}
+
+@media (min-width: 1200px) {
+  h1,
+  .h1 {
+    font-size: 2.34375rem;
+  }
+}
+
+h2,
+.h2 {
+  font-size: calc(1.3125rem + 0.75vw);
+}
+@media (min-width: 1200px) {
+  h2,
+  .h2 {
+    font-size: 1.875rem;
+  }
+}
+
+h3,
+.h3 {
+  font-size: calc(1.2890625rem + 0.46875vw);
+}
+@media (min-width: 1200px) {
+  h3,
+  .h3 {
+    font-size: 1.640625rem;
+  }
+}
+
+h4,
+.h4 {
+  font-size: calc(1.265625rem + 0.1875vw);
+}
+@media (min-width: 1200px) {
+  h4,
+  .h4 {
+    font-size: 1.40625rem;
+  }
+}
+
+h5,
+.h5 {
+  font-size: 1.171875rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.9375rem;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

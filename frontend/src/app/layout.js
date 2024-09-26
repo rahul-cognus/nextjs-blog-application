@@ -1,15 +1,13 @@
-import localFont from "next/font/local";
+import { Nunito_Sans, Rubik } from 'next/font/google'
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const nunito_Sans = Nunito_Sans({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const rubik = Rubik({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
 });
 
 export const metadata = {
@@ -21,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${nunito_Sans.className} ${rubik.className} antialiased`}
       >
         {children}
       </body>
