@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
-const userModel = require("../models/userModel");
+
 
 //GET ALL BLOGS
 exports.getAllBlogsController = () => {
@@ -18,7 +18,33 @@ exports.getUserBlogControlller = () => {
 }
 
 //Create Blog
-exports.createBlogController = () => {
+exports.createBlogController = async (req, res) => {
+    const { title, slug, description, bannerImage, content, category, tags } = req.body;
+    try {
+        const blog = new blogModel({
+            title,
+            slug,
+            description,
+            bannerImage,
+            content,
+            // author: req.user._id, // Assuming the user is authenticated
+            category,
+            tags,
+        });
+        await blog.save();
+        res.status(201).send({
+            success: true,
+            message: "Blog post created successfully",
+            blog,
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error creating blog post",
+            error,
+        })
+    }
 
 }
 

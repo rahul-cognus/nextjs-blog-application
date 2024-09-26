@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema(
             type: String,
             required: [true, "description is require"],
         },
-        bannerimage: {
+        bannerImage: {
             type: String,
             required: [true, "image is require"],
         },
@@ -25,12 +25,12 @@ const blogSchema = new mongoose.Schema(
             required: [true, "Content is require"],
         },
         author: {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             require: [true, "user id is required"],
         },
         category: [{
-            type: mongoose.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: "Category"
         }],
         status: {
@@ -40,11 +40,11 @@ const blogSchema = new mongoose.Schema(
         },
         tags: [
             {
-                type: mongoose.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Tag"
             }
         ],
-        comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }],
+        comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     },
     { timestamps: true }
 );
