@@ -21,7 +21,7 @@ const Header = () => {
     };
   }, []);
   return (
-    <header className={isSticky && "navbar-sticky"}>
+    <header className={`${isSticky && "navbar-sticky"}`}>
       {!isSticky && <TopNavbar />}
       <Navbar isSticky={isSticky} />
     </header>

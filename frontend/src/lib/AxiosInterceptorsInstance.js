@@ -36,3 +36,23 @@ async function getCookieData() {
         throw new Error(`Failed to retrieve cookies: ${error.message}`);
     }
 }
+
+// // Response interceptor
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        // Log error details for debugging
+        if (error.response) {
+            console.error("Response error:", {
+                status: error.response.status,
+                data: error.response.data,
+                headers: error.response.headers,
+            });
+        } else {
+            console.error("Error in response interceptor:", error.message);
+        }
+        return Promise.reject(error); // Reject with the original error
+    }
+)

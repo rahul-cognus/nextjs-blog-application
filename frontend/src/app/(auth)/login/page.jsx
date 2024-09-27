@@ -1,16 +1,34 @@
+"use client";
+import { useAuth } from "@/lib/useAuth";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 
 const Login = () => {
+  const { loginUser, error } = useAuth();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setLoginData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = loginData;
+    loginUser({ email, password });
+  };
   return (
     <main>
       <section className="container py-12 flex justify-center ">
-        <div class="w-full md:w-10/12 lg:w-1/2 xl:w-[43%] p-8 sm:p-12 bg-primary bg-opacity-10 rounded">
+        <div className="w-full md:w-10/12 lg:w-1/2 xl:w-[43%] p-8 sm:p-12 bg-primary bg-opacity-10 rounded">
           <h2 className=" text-2xl md:text-3xl font-semibold">
             Log in to your account
           </h2>
-          <form className="mt-8">
+          <form className="mt-8" onSubmit={handleSubmit}>
             {/* email */}
             <div className="mb-5">
               <label
@@ -21,9 +39,13 @@ const Login = () => {
               </label>
               <input
                 type="email"
+                name="email"
+                value={loginData.email}
+                onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all"
                 id="email"
                 placeholder="E-mail"
+                required
               ></input>
             </div>
             {/* password */}
@@ -36,9 +58,13 @@ const Login = () => {
               </label>
               <input
                 type="password"
+                name="password"
+                value={loginData.password}
+                onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all"
                 id="Password"
                 placeholder="*********"
+                required
               ></input>
             </div>
             {/* forget password */}
@@ -49,7 +75,11 @@ const Login = () => {
             </div>
             {/* sign in button */}
             <div className="flex flex-col md:flex-row md:items-center justify-between">
-              <button className="bg-[#0cBC87] text-white font-medium py-2 px-4 rounded hover:bg-[#0aa073] transition-colors">
+              {error && <p className=" text-red-500 text-15 block">{error}</p>}
+              <button
+                type="submit"
+                className="bg-[#0cBC87] text-white font-medium py-2 px-4 rounded hover:bg-[#0aa073] transition-colors"
+              >
                 Sign in me
               </button>
               <div className="flex items-center text-15 text-[#595D69] gap-1">
