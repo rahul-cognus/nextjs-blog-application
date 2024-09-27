@@ -48,7 +48,7 @@ const Login = () => {
               </Link>
             </div>
             {/* sign in button */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between">
               <button className="bg-[#0cBC87] text-white font-medium py-2 px-4 rounded hover:bg-[#0aa073] transition-colors">
                 Sign in me
               </button>
@@ -66,12 +66,12 @@ const Login = () => {
             <p className="text-15 text-[#595D69]">
               Sign in with your social network for quick access
             </p>
-            <div className="flex items-center gap-4 my-4">
-              <button className="bg-[#5d82d1] text-white font-medium py-2 px-4 rounded  hover:bg-[#5475bc] text-15 flex items-center justify-center gap-2 w-1/2">
+            <div className="flex flex-col md:flex-row items-center gap-4 my-4">
+              <button className="bg-[#5d82d1] text-white font-medium py-2 px-4 rounded  hover:bg-[#5475bc] text-15 flex items-center justify-center gap-2 w-full md:w-1/2">
                 <FaFacebookF />
                 Sign in with Facebook
               </button>
-              <button className="bg-[#3c7ff1] text-white font-medium py-2 px-4 rounded  hover:bg-[#3672d9] text-15 flex items-center justify-center gap-2 w-1/2">
+              <button className="bg-[#3c7ff1] text-white font-medium py-2 px-4 rounded  hover:bg-[#3672d9] text-15 flex items-center justify-center gap-2 w-full md:w-1/2">
                 <FaGoogle />
                 Sign in with google
               </button>
