@@ -1,11 +1,13 @@
 "use client";
 import { useAuth } from "@/lib/useAuth";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 
 const Login = () => {
-  const { loginUser, error } = useAuth();
+  const router = useRouter();
+  const { loginUser, error, user } = useAuth();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -21,6 +23,12 @@ const Login = () => {
     const { email, password } = loginData;
     loginUser({ email, password });
   };
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
+
   return (
     <main>
       <section className="container py-12 flex justify-center ">

@@ -1,9 +1,9 @@
 "use client"
-
-import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const useAuth = () => {
+    const router = useRouter();
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
@@ -23,12 +23,13 @@ export const useAuth = () => {
                     Date.now() + expirationTime * 1000).toUTCString()}; path=/; domain=${process.env.NEXT_PUBLIC_COOKIE_DOMAIN
                     }`
                 setUser(result.newUser);
-                Router.push('/');
+                router.push('/');
             } else {
                 setError(result.message || 'Registration failed');
             }
         } catch (err) {
-            setError('An error occurred');
+            setError('An error occurred', err);
+            console.log(err);
         }
     }
 
@@ -49,12 +50,13 @@ export const useAuth = () => {
                     }`
                 console.log(result);
                 setUser(result.newUser);
-                Router.push('/');
+                router.push('/');
             } else {
                 setError(result.message || 'Login failed');
             }
         } catch (err) {
-            setError('An error occurred');
+            setError('An error occurred', err);
+            console.log(err);
         }
     }
     return { user, error, registerUser, loginUser, };
