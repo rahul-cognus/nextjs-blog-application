@@ -27,7 +27,7 @@ const TopNavbar = () => {
               <Link href={"/"}>Buy now!</Link>
             </li>
             <li className="text-gray-700 hover:text-blue-500 text-sm">
-              <Link href={"/"}>Login / Join</Link>
+              <Link href={"/login"}>Login / Join</Link>
             </li>
           </ul>
           <div className="flex items-center gap-5">
