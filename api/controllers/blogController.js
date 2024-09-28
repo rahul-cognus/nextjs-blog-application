@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
 
 //GET ALL BLOGS
-exports.getAllBlogsController = () => {};
+exports.getAllBlogsController = () => { };
 
 // blog by id
-exports.getBlogByIdController = () => {};
+exports.getBlogByIdController = () => { };
 
 //get blog by user
-exports.getUserBlogControlller = () => {};
+exports.getUserBlogControlller = () => { };
 
 //Create Blog
 exports.createBlogController = async (req, res) => {
@@ -42,7 +42,7 @@ exports.createBlogController = async (req, res) => {
 };
 
 //Update Blog
-exports.updateBlogController = () => {};
+exports.updateBlogController = () => { };
 
 //Delete Blog
-exports.deleteBlogController = () => {};
+exports.deleteBlogController = () => { };
