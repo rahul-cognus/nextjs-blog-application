@@ -7,7 +7,8 @@ const CreatePost = () => {
   const [createBlog, setCreateBlog] = useState({
     blogTitle: "",
     blogDesc: "",
-    tags: [],
+    content: "",
+    tags: [""],
     category: "",
   });
   const handleChange = () => {};
@@ -51,6 +52,19 @@ const CreatePost = () => {
               placeholder="Add description"
             ></textarea>
           </div>
+          <div className="mb-5">
+            <label
+              htmlFor="blogContent"
+              className="block text-[#595D69] text-15 mb-2"
+            >
+              Blog Content
+            </label>
+            <Editor
+              data={createBlog.content}
+              onChange={(e) => setCreateBlog(e)}
+              holder="create-blog-editor"
+            />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="mb-5">
               <label
@@ -84,19 +98,9 @@ const CreatePost = () => {
                 <option>Business</option>
                 <option>Technology</option>
               </select>
-              {/* <input
-                required
-                id="category"
-                name="category"
-                type="text"
-                value={createBlog.category}
-                onChange={handleChange}
-                placeholder="Category Slug"
-                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all"
-              /> */}
             </div>
           </div>
-          <Editor />
+
           <button
             type="submit"
             className="bg-blue-600 text-white px-3 py-2 rounded text-15 font-medium  font-rubik flex items-center justify-center gap-1 w-full text-center"

@@ -1,7 +1,6 @@
 import EditorJS from "@editorjs/editorjs";
 import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
-import Embed from "@editorjs/embed";
 import Image from "@editorjs/image";
 import InlineCode from "@editorjs/inline-code";
 import List from "@editorjs/list";
@@ -13,9 +12,11 @@ import Header from "@editorjs/header";
 import Raw from "@editorjs/raw";
 import CodeTool from "@editorjs/code";
 import { useEffect, useRef } from "react";
-import { Hyperlink } from "editorjs-hyperlink";
+import Embed from "@editorjs/embed";
+const Hyperlink = require("editorjs-hyperlink");
 
 const EDITOR_TOOLS = {
+  embed: Embed,
   code: CodeTool,
   header: {
     class: Header,
@@ -40,8 +41,26 @@ const EDITOR_TOOLS = {
   },
   paragraph: {
     class: Paragraph,
-    // shortcut: 'CMD+P',
+    shortcut: "CMD+P",
     inlineToolbar: true,
+  },
+  image: {
+    class: Image,
+    config: {
+      uploader: {
+        uploadByFile: (file) => {
+          //this function will be triggered when image gets selected
+          return {
+            success: 1,
+            file: {
+              // / i'm creating a blob from the image file you can do your api call to upload the image somewhere and store the actual url
+              url: URL.createObjectURL(file),
+              raw: file,
+            },
+          };
+        },
+      },
+    },
   },
   checklist: {
     class: CheckList,
@@ -67,14 +86,26 @@ const Editor = ({ data, onChange, holder }) => {
         placeholder: "Start writting here..",
         tools: EDITOR_TOOLS,
         data,
+        async onChange(api, event) {
+          const content = await api.saver.save();
+          console.log(content, "sdfb");
+          onChange(content);
+        },
       });
+      ref.current = editor;
     }
-  });
+    //add a return function handle cleanup
+    return () => {
+      if (ref.current && ref.current.destroy) {
+        ref.current.destroy();
+      }
+    };
+  }, []);
   return (
     <>
       <div
         id={holder}
-        className=" w-full min-h-[500px] rounded-lg bg-white"
+        className="border border-gray-300 rounded-lg py-2 px-4 min-h-[300px]  bg-white"
       ></div>
     </>
   );
