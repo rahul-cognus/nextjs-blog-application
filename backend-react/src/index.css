@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* predefined */
+h6,
+.h6,
+h5,
+.h5,
+h4,
+.h4,
+h3,
+.h3,
+h2,
+.h2,
+h1,
+.h1 {
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #191a1f;
+}
+h1,
+.h1 {
+  font-size: calc(1.359375rem + 1.3125vw);
+}
+
+@media (min-width: 1200px) {
+  h1,
+  .h1 {
+    font-size: 2.34375rem;
+  }
+}
+
+h2,
+.h2 {
+  font-size: calc(1.3125rem + 0.75vw);
+}
+@media (min-width: 1200px) {
+  h2,
+  .h2 {
+    font-size: 1.875rem;
+  }
+}
+
+h3,
+.h3 {
+  font-size: calc(1.2890625rem + 0.46875vw);
+}
+@media (min-width: 1200px) {
+  h3,
+  .h3 {
+    font-size: 1.640625rem;
+  }
+}
+
+h4,
+.h4 {
+  font-size: calc(1.265625rem + 0.1875vw);
+}
+@media (min-width: 1200px) {
+  h4,
+  .h4 {
+    font-size: 1.40625rem;
+  }
+}
+
+h5,
+.h5 {
+  font-size: 1.171875rem;
+}
+
+h6,
+.h6 {
+  font-size: 0.9375rem;
+}
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.navbar-sticky {
+  position: fixed;
+  z-index: 1020;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  width: 100%;
+  box-shadow: 0px 0px 40px rgba(83, 88, 93, 0.2);
+  animation: fadeInDown 0.5s;
+}
+.btn-link {
+  padding-bottom: 0px;
+  background: linear-gradient(to right, currentColor 0%, currentColor 100%);
+  background-size: 0% 6%;
+  background-repeat: no-repeat;
+  background-position: left 100%;
+  transition-duration: 0.5s;
+  font-weight: inherit;
+  padding: 0;
+  &:hover {
+    background-size: 100% 6%;
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
