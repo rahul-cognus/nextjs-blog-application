@@ -5,7 +5,7 @@ import { FaCircle, FaRegStar } from "react-icons/fa6";
 
 const HighlightCard = () => {
   return (
-    <div className="grid grid-cols-2 gap-10">
+    <div className="container grid grid-cols-2 gap-10">
       <Link
         href={"/"}
         className=" group card h-[560px] rounded-md overflow-hidden z-10 will-change-transform  relative before:content-[''] before:bg-[linear-gradient(180deg,_transparent,_black)]     before:absolute before:left-0 before:right-0 before:h-1/2 before:bottom-0 before:z-10 before:w-full"
