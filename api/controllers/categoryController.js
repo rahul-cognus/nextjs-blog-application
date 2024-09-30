@@ -1,10 +1,30 @@
 const categoryModel = require("../models/categoryModel");
 // // Get all categories
-exports.getCategories = () => { };
+exports.getCategoriesController = async (req, res) => {
+  try {
+    const categories = await categoryModel.find();
+    res.status(200).send({
+      success: true,
+      message: "Categories fetch successful",
+      categories,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error Getting Category",
+      error,
+    });
+  }
+};
 
 // Create a new category
 exports.createCategoryController = async (req, res) => {
-  const { categoryName: name, categorySlug: slug, categoryDesc: description } = req.body;
+  const {
+    categoryName: name,
+    categorySlug: slug,
+    categoryDesc: description,
+  } = req.body;
   try {
     const category = new categoryModel({
       name,
@@ -28,4 +48,6 @@ exports.createCategoryController = async (req, res) => {
 };
 
 // Delete a category by ID
-exports.deleteCategory = () => { };
+exports.deleteCategoryController = async (req, res) => {
+  
+};
