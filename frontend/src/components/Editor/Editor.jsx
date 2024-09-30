@@ -13,11 +13,16 @@ import Raw from "@editorjs/raw";
 import CodeTool from "@editorjs/code";
 import { useEffect, useRef } from "react";
 import Embed from "@editorjs/embed";
+import CodeBox from "@bomdi/codebox";
+import LinkTool from "@editorjs/link";
 const Hyperlink = require("editorjs-hyperlink");
 
 const EDITOR_TOOLS = {
   embed: Embed,
   code: CodeTool,
+  codeBox: CodeBox,
+  linkTool: LinkTool,
+  simpleImage: SimpleImage,
   header: {
     class: Header,
     shortcut: "CMD+H",
@@ -28,17 +33,17 @@ const EDITOR_TOOLS = {
       defaultLevel: 2,
     },
   },
-  hyperlink: {
-    class: Hyperlink,
-    shortcut: "CMD+L",
-    config: {
-      target: "_blank",
-      rel: "nofollow",
-      availableTargets: ["_blank", "_self"],
-      availableRels: ["author", "noreferrer"],
-      validate: false,
-    },
-  },
+  // hyperlink: {
+  //   class: Hyperlink,
+  //   shortcut: "CMD+L",
+  //   config: {
+  //     target: "_blank",
+  //     rel: "nofollow",
+  //     availableTargets: ["_blank", "_self"],
+  //     availableRels: ["author", "noreferrer"],
+  //     validate: false,
+  //   },
+  // },
   paragraph: {
     class: Paragraph,
     shortcut: "CMD+P",
