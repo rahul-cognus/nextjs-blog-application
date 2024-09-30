@@ -1,10 +1,10 @@
 const categoryModel = require("../models/categoryModel");
 // // Get all categories
-exports.getCategories = () => {};
+exports.getCategories = () => { };
 
 // Create a new category
 exports.createCategoryController = async (req, res) => {
-  const { name, slug, description } = req.body;
+  const { categoryName: name, categorySlug: slug, categoryDesc: description } = req.body;
   try {
     const category = new categoryModel({
       name,
@@ -28,4 +28,4 @@ exports.createCategoryController = async (req, res) => {
 };
 
 // Delete a category by ID
-exports.deleteCategory = () => {};
+exports.deleteCategory = () => { };

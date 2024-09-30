@@ -71,6 +71,7 @@ const CreateCategory = () => {
               Short description
             </label>
             <textarea
+              id="shortDescription"
               name="categoryDesc"
               value={createCat.categoryDesc}
               onChange={handleChange}

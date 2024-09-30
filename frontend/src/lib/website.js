@@ -36,7 +36,7 @@ export const fetchData = async (apiUrl, method = "GET", payload = {}) => {
         process.env.NEXT_PUBLIC_APP_MODE === "production"
           ? "force-cache"
           : "no-store",
-      method: { method },
+      method,
       headers,
       body: method === "GET" ? null : JSON.stringify(payload),
     });
