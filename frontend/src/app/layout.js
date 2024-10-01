@@ -2,6 +2,7 @@ import { Nunito_Sans, Rubik } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header/Header";
 import TopAlert from "@/components/layout/Header/TopAlert";
+import ToastProvider from "@/components/ToastProvider";
 
 const nunito_Sans = Nunito_Sans({
   weight: ["400", "500", "700"],
@@ -23,9 +24,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${nunito_Sans.className} ${rubik.className} antialiased`}
       >
-        {/* <TopAlert />
+        <ToastProvider>
+          {/* <TopAlert />
       <Header /> */}
-        {children}
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );

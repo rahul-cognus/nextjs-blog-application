@@ -2,6 +2,7 @@
 import TitleHeader from "@/components/dashboard/TitleHeader";
 import React, { useState } from "react";
 import { fetchData } from "@/lib/website";
+import { toast } from "react-toastify";
 
 const CreateCategory = () => {
   const [createCat, setCreateCat] = useState({
@@ -18,7 +19,20 @@ const CreateCategory = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchData("/category/create-category", "POST", createCat);
+    try {
+      fetchData("/category/create-category", "POST", createCat);
+
+      toast.success("Category created successfully!");
+      // Clear the form
+      setCreateCat({
+        categoryName: "",
+        categorySlug: "",
+        categoryDesc: "",
+      });
+    } catch (error) {
+      // Handle error notification
+      toast.error("Failed to create category.");
+    }
   };
   return (
     <div className="container">

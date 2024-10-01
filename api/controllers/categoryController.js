@@ -48,6 +48,4 @@ exports.createCategoryController = async (req, res) => {
 };
 
 // Delete a category by ID
-exports.deleteCategoryController = async (req, res) => {
-  
-};
+exports.deleteCategoryController = async (req, res) => {};

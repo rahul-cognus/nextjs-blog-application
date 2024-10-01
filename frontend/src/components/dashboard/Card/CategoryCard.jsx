@@ -4,7 +4,7 @@ import React from "react";
 
 const CategoryCard = ({ categoryTitle, categoryDesc, totalBlogs }) => {
   return (
-    <div className="sm:w-1/3 border rounded-xl">
+    <div className="w-full border rounded-xl">
       <div className="flex items-center gap-4 p-4 border-b">
         <div className="shadow rounded-full bg-white w-14 h-14">
           {/* <Image className="" width={40} height={40} alt="Category Logo" /> */}
