@@ -1,5 +1,7 @@
 import { Nunito_Sans, Rubik } from 'next/font/google'
 import "./globals.css";
+import Header from '@/components/layout/Header/Header';
+import TopAlert from '@/components/layout/Header/TopAlert';
 
 const nunito_Sans = Nunito_Sans({
   weight: ["400", "500", "700"],
@@ -21,6 +23,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${nunito_Sans.className} ${rubik.className} antialiased`}
       >
+      <TopAlert />
+      <Header />
         {children}
       </body>
     </html>
