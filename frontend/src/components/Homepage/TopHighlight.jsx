@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import React from 'react'
-import { ImFacebook2 , ImYoutube} from "react-icons/im";
-import { FaInstagram } from "react-icons/fa";
-import Link from 'next/link';
 import Social from '@/components/Homepage/Social';
 import TrendingTopic from '@/components/Homepage/TrendingTopic';
+import RecentTopics from './RecentTopic';
+import Cards from './Card';
+import Heading from './Heading';
 
 const cardData = [
     {imageSrc : "/images/blog/4by3/01.jpg",category:"Technology",categoryStyle:"bg-warning text-black [&>span]:bg-black",isSponsored:true,title:"12 worst types of business accounts you follow on Twitter",
@@ -36,87 +35,32 @@ const cardData = [
 const TopHighlight = () => {
   return (
     <div className='container grid grid-cols-4 gap-8 py-12'>
-        <LeftSide />
-        <RightSide />
+        <MainContent />
+        <RightSidebar />
     </div>
   )
 }
 
-const LeftSide = () => {
+const MainContent = () => {
     return(
         <div className=' col-span-3 grid gap-4'>
             <Heading />
-            <LeftContent />
+            <div className='grid grid-rows-3 grid-cols-2 gap-8'>
+                <Cards cardData={cardData} />
+            </div>
         </div>
     )
 }
 
-const RightSide = () => {
+const RightSidebar = () => {
     return(
         <div className='flex flex-col gap-8'>
             <Social />
-            <TrendingTopic title={'Trending topics'} />
+            <TrendingTopic />
+            <RecentTopics />
         </div>
     )
 }
-
-const LeftContent = () =>{
-    return (
-        <div className='grid grid-rows-3 grid-cols-2 gap-8'>
-            <Cards />
-        </div>
-    )
-}
-
-const Cards = () => {
-    return(
-        <>
-            {cardData.map((item,index)=>{
-                return(
-                    <>
-                        <div key={index} className="bg-white rounded-xl overflow-hidden grow">
-                        {/* <!-- Card img --> */}
-                        <div className="relative rounded-xl overflow-hidden">
-                            <Image width={600} height={450} className="w-full" src={item.imageSrc} alt="Card image" />
-                            {item.category && 
-                                <div className="absolute bottom-0 flex flex-col justify-between p-3">
-                                    <Link href="#" className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}><span className='size-2 flex rounded-full'></span>{ item.category}</Link>
-                                </div>
-                            }
-                        </div>
-                        <div className="py-3">
-                            <h4 className="text-2xl font-bold text-[#191A1F]"><Link href="post-single.html" className=" btn-link">{item.title}</Link></h4>
-                            <p className="text-gray-700">{item.para}</p>
-                            {/* <!-- Card info --> */}
-                            <ul className="flex items-center space-x-2 mt-4 text-sm">
-                            <li className="flex items-center">
-                                <Image width={100} height={100} className="w-8 h-8 rounded-full" src={item.authorImg} alt="avatar" />
-                                <span className="ml-2">by <Link href="#" className="text-blue-500 hover:underline">{item.authorName}</Link></span>
-                            </li>
-                            <li className="ml-auto">{item.date}</li>
-                            </ul>
-                        </div>
-                        </div>
-                    </>
-                )
-            })}
-        </>
-    )
-}
-
-const Heading = () => {
-    return(
-        <div className=''>
-            <h2 className='text-[#191A1F] text-3xl'>
-                Today's top highlights
-            </h2>
-            <p className='text-[#595D69] text-base'>Latest breaking news, pictures, videos, and special reports</p>
-        </div>
-    )
-}
-
-
-
 
 
 export default TopHighlight

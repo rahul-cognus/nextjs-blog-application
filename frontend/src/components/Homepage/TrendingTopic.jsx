@@ -11,17 +11,18 @@ const TrendingTopic = ({title}) => {
     ]
     return(
         <>
+            <h3 className='text-3xl'>Trending topics</h3>
             <div className='grid grid-rows-5 gap-4'>
-            <h3 className='text-3xl'>{title}</h3>
                 {categoryData.map((item,index)=>{
                     return(
-                        <div key={index} className='overflow-hidden rounded relative h-14 w-full'>
-                            <Image fill className="w-full hover:scale-125 duration-500 rounded absolute object-cover brightness-75	" src={item.bg} alt="category" />
-                            <p className='text-xl text-center text-white font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{item.title}</p>
+                        <div key={index} className='group overflow-hidden rounded relative p-8 w-full'>
+                            <Image fill className="brightness-75 w-full group-hover:scale-125 duration-500 rounded absolute object-cover" src={item.bg} alt="category" />
+                            <p className='group text-xl text-center text-white font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{item.title}</p>
                         </div>
                     )
                 })}
             </div>
+            <p className='underline text-gray-500 text-base font-bold text-center'>View all categories</p>
         </>
     )
 }
