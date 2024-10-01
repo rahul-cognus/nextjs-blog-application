@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 
@@ -14,10 +15,13 @@ const TitleHeader = ({ title, count, btnText, btnUrl }) => {
           )}
         </h1>
         {btnText && (
-          <button className="bg-blue-600 text-white px-3 py-2 rounded text-[13px] font-medium  font-rubik flex items-center gap-1">
+          <Link
+            href={btnUrl}
+            className="bg-blue-600 text-white px-3 py-2 rounded text-[13px] font-medium  font-rubik flex items-center gap-1"
+          >
             <FaPlus />
             {btnText}
-          </button>
+          </Link>
         )}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import CategoryCard from "@/components/dashboard/Card/CategoryCard";
 import TitleHeader from "@/components/dashboard/TitleHeader";
 import React from "react";
 
@@ -8,7 +9,13 @@ const PostCategory = () => {
         title={"Categories"}
         count={"07"}
         btnText={"Add new category"}
-        btnUrl={"demno"}
+        btnUrl={"post-category/create"}
+      />
+      {/* category card */}
+      <CategoryCard
+        categoryTitle={"Technology"}
+        categoryDesc="Departure defective arranging rapturous did believe him all had supported."
+        totalBlogs={"846"}
       />
     </div>
   );
