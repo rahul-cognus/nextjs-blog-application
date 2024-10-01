@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import { ImFacebook2 , ImYoutube} from "react-icons/im";
 import { FaInstagram } from "react-icons/fa";
+import { BsHourglassTop } from "react-icons/bs";
 import Link from 'next/link';
 
 const cardData = [
@@ -54,6 +55,7 @@ const RightSide = () => {
         <div className='flex flex-col gap-8'>
             <Social />
             <TrendingTopic />
+            <RecentTopics />
         </div>
     )
 }
@@ -73,27 +75,27 @@ const Cards = () => {
                 return(
                     <>
                         <div key={index} className="bg-white rounded-xl overflow-hidden grow">
-                        {/* <!-- Card img --> */}
-                        <div className="relative rounded-xl overflow-hidden">
-                            <Image width={600} height={450} className="w-full" src={item.imageSrc} alt="Card image" />
-                            {item.category && 
-                                <div className="absolute bottom-0 flex flex-col justify-between p-3">
-                                    <Link href="#" className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}><span className='size-2 flex rounded-full'></span>{ item.category}</Link>
-                                </div>
-                            }
-                        </div>
-                        <div className="py-3">
-                            <h4 className="text-2xl font-bold text-[#191A1F]"><Link href="post-single.html" className=" btn-link">{item.title}</Link></h4>
-                            <p className="text-gray-700">{item.para}</p>
-                            {/* <!-- Card info --> */}
-                            <ul className="flex items-center space-x-2 mt-4 text-sm">
-                            <li className="flex items-center">
-                                <Image width={100} height={100} className="w-8 h-8 rounded-full" src={item.authorImg} alt="avatar" />
-                                <span className="ml-2">by <Link href="#" className="text-blue-500 hover:underline">{item.authorName}</Link></span>
-                            </li>
-                            <li className="ml-auto">{item.date}</li>
-                            </ul>
-                        </div>
+                            {/* <!-- Card img --> */}
+                            <div className="relative rounded-xl overflow-hidden">
+                                <Image width={600} height={450} className="w-full" src={item.imageSrc} alt="Card image" />
+                                {item.category && 
+                                    <div className="absolute bottom-0 flex flex-col justify-between p-3">
+                                        <Link href="#" className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}><span className='size-2 flex rounded-full'></span>{ item.category}</Link>
+                                    </div>
+                                }
+                            </div>
+                            <div className="py-3">
+                                <h4 className="text-2xl font-bold text-[#191A1F]"><Link href="post-single.html" className=" btn-link">{item.title}</Link></h4>
+                                <p className="text-gray-700 line-clamp-3 ">{item.para}</p>
+                                {/* <!-- Card info --> */}
+                                <ul className="flex items-center space-x-2 mt-4 text-sm">
+                                <li className="flex items-center">
+                                    <Image width={100} height={100} className="w-8 h-8 rounded-full" src={item.authorImg} alt="avatar" />
+                                    <span className="ml-2">by <Link href="#" className=" btn-link">{item.authorName}</Link></span>
+                                </li>
+                                <li className="ml-auto">{item.date}</li>
+                                </ul>
+                            </div>
                         </div>
                     </>
                 )
@@ -105,8 +107,8 @@ const Cards = () => {
 const Heading = () => {
     return(
         <div className=''>
-            <h2 className='text-[#191A1F] text-3xl'>
-                Today's top highlights
+            <h2 className='text-[#191A1F] text-3xl flex items-center gap-2'>
+               <BsHourglassTop />  Today's top highlights
             </h2>
             <p className='text-[#595D69] text-base'>Latest breaking news, pictures, videos, and special reports</p>
         </div>
@@ -116,19 +118,19 @@ const Heading = () => {
 const Social = () => {
     return(
         <div className="grid grid-cols-3 gap-2">
-                <Link href="#" className="flex flex-col gap-1 items-center bg-[#5d82d1] rounded text-center text-white p-4">
+                <Link href="#" className="flex flex-col gap-1 items-center bg-[#4764a1] rounded text-center text-white p-4">
                     <ImFacebook2 />
                     <h6 className="m-0 text-lg text-white mt-1">1.5K</h6>
                     <span className="text-sm">Fans</span>
                 </Link>
 
-                <Link href="#" className="flex flex-col gap-1 items-center bg-gradient-to-tr from-[#fdf497] via-[#fdf497] via-[#fd5949] via-[#d6249f] to-[#285AEB] rounded text-center text-white p-4">
+                <Link href="#" className="flex flex-col gap-1 items-center  rounded text-center text-white p-4 transition-all ease-in-out duration-300 bg-[linear-gradient(45deg,_#fdf497_0%,_#fdf497_10%,_#fd5949,_#d6249f,_#285AEB)]">
                     <FaInstagram />
                     <h6 className="m-0 text-lg text-white mt-1">1.8M</h6>
                     <span className="text-sm">Followers</span>
                 </Link>
 
-                <Link href="#" className="flex flex-col gap-1 items-center bg-[#ff0000] rounded text-center text-white p-4">
+                <Link href="#" className="flex flex-col gap-1 items-center bg-[#c32121] rounded text-center text-white p-4">
                     <ImYoutube />
                     <h6 className="m-0 text-lg text-white mt-1">22K</h6>
                     <span className="text-sm">Subs</span>
@@ -151,9 +153,37 @@ const TrendingTopic = () => {
             <div className='grid grid-rows-5 gap-4'>
                 {categoryData.map((item,index)=>{
                     return(
-                        <div key={index} className='overflow-hidden rounded relative h-14 w-full'>
-                            <Image fill className="w-full hover:scale-125 duration-500 rounded absolute object-cover" src={item.bg} alt="category" />
-                            <p className='text-xl text-center text-white font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{item.title}</p>
+                        <div key={index} className='group overflow-hidden rounded relative p-8 w-full'>
+                            <Image fill className="brightness-75 w-full group-hover:scale-125 duration-500 rounded absolute object-cover" src={item.bg} alt="category" />
+                            <p className='group text-xl text-center text-white font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{item.title}</p>
+                        </div>
+                    )
+                })}
+            </div>
+            <p className='underline text-gray-500 text-base font-bold text-center'>View all categories</p>
+        </>
+    )
+}
+
+const RecentTopics = () => {
+    const recentTopicData = [
+        {title:"The pros and cons of business agency",bg:"/images/blog/4by3/thumb/01.jpg",date:"Apr 04, 2024"},
+        {title:"5 reasons why you shouldn't startup",bg:"/images/blog/4by3/thumb/02.jpg",date:"Apr 04, 2024"},
+        {title:"Ten questions you should answer truthfully.",bg:"/images/blog/4by3/thumb/03.jpg",date:"Apr 04, 2024"},
+        {title:"Five unbelievable facts about money.",bg:"/images/blog/4by3/thumb/04.jpg",date:"Apr 04, 2024"}
+    ]
+    return(
+        <>
+            <h3 className='text-3xl'>Trending topics</h3>
+            <div className='grid grid-rows-4 gap-4'>
+                {recentTopicData.map((item,index)=>{
+                    return(
+                        <div key={index} className=' overflow-hidden rounded w-full grid grid-cols-3 gap-3'>
+                            <Image width={90} height={65} className="rounded object-cover" src={item.bg} alt="category" />
+                            <div className='col-span-2'>
+                                <Link href={"#"} className=' text-base btn-link text-center text-black font-bold'>{item.title}</Link>
+                                <p className='text-gray-500 text-sm mt-1.5'>{item.date}</p>
+                            </div>
                         </div>
                     )
                 })}
