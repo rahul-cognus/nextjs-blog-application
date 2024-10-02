@@ -1,17 +1,71 @@
 "use client";
 import TitleHeader from "@/components/dashboard/TitleHeader";
 import Editor from "@/components/Editor/Editor";
-import React, { useState } from "react";
+import { fetchData } from "@/lib/website";
+import React, { useEffect, useState } from "react";
 
+// Utility function to generate slug
+const generateSlug = (title) => {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
 const CreatePost = () => {
   const [createBlog, setCreateBlog] = useState({
     blogTitle: "",
+    slug: "",
     blogDesc: "",
     content: "",
     tags: [""],
     category: "",
   });
-  const handleChange = () => {};
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [slugChangedManually, setSlugChangedManually] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    // Automatically generate slug from blog title only if it was not changed manually
+    if (name === "blogTitle") {
+      const generatedSlug = !slugChangedManually
+        ? generateSlug(value)
+        : createBlog.slug;
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        blogTitle: value,
+        slug: generatedSlug, // Keep the slug intact if manually changed
+      }));
+    } else if (name === "slug") {
+      setSlugChangedManually(true); // Mark slug as manually changed
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        slug: value, // Allow user to edit slug manually
+      }));
+    } else {
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+  // Fetch categories on component mount
+  useEffect(() => {
+    const getCategories = async () => {
+      const response = await fetchData("/category/getCategories");
+
+      if (response.error) {
+        setError(response.error);
+      } else {
+        setCategoriesData(response.categories);
+      }
+      setLoading(false);
+    };
+
+    getCategories();
+  }, []);
+  console.log(createBlog);
   return (
     <div className="container">
       <TitleHeader title={"Create a post"} />
@@ -32,6 +86,21 @@ const CreatePost = () => {
               value={createBlog.blogTitle}
               onChange={handleChange}
               placeholder="Blog Title"
+              className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+            />
+          </div>
+          <div className="mb-5">
+            <label htmlFor="slug" className="block text-[#595D69] text-15 mb-2">
+              Slug
+            </label>
+            <input
+              required
+              id="slug"
+              name="slug"
+              type="text"
+              value={createBlog.slug}
+              onChange={handleChange}
+              placeholder="Blog Slug"
               className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
             />
           </div>
@@ -61,7 +130,7 @@ const CreatePost = () => {
             </label>
             <Editor
               data={createBlog.content}
-              onChange={(e) => setCreateBlog(e)}
+              onChange={(e) => setCreateBlog({ ...createBlog, content: e })}
               holder="create-blog-editor"
             />
           </div>
@@ -94,9 +163,23 @@ const CreatePost = () => {
               >
                 Category
               </label>
-              <select className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15">
-                <option>Business</option>
-                <option>Technology</option>
+              <select
+                id="category"
+                name="category"
+                value={createBlog.category}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                {categoriesData.map((category) => {
+                  return (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
