@@ -130,7 +130,9 @@ const CreatePost = () => {
             </label>
             <Editor
               data={createBlog.content}
-              onChange={(e) => setCreateBlog({ ...createBlog, content: e })}
+              onChange={(e, createBlog) =>
+                setCreateBlog({ ...createBlog, content: e })
+              }
               holder="create-blog-editor"
             />
           </div>
