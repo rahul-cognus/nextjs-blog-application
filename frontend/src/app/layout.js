@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header/Header";
 import TopAlert from "@/components/layout/Header/TopAlert";
 import ToastProvider from "@/components/ToastProvider";
+import NextProvider from "@/components/NextProvider";
 
 const nunito_Sans = Nunito_Sans({
   weight: ["400", "500", "700"],
@@ -24,11 +25,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${nunito_Sans.className} ${rubik.className} antialiased`}
       >
-        <ToastProvider>
-          {/* <TopAlert />
-      <Header /> */}
-          {children}
-        </ToastProvider>
+        <NextProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </NextProvider>
       </body>
     </html>
   );

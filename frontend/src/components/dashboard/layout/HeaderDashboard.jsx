@@ -99,7 +99,32 @@ const HeaderDashboard = () => {
                       Create Category
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      href={"/dashboard/tags"}
+                      className="block text-nowrap text-15 text-[#595d69] py-1 hover:text-primary"
+                    >
+                      Tag List
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={"/dashboard/tags/create"}
+                      className="block text-nowrap text-15 text-[#595d69] py-1 hover:text-primary"
+                    >
+                      Create Tag
+                    </Link>
+                  </li>
                 </ul>
+              </li>
+              <li>
+                <Link
+                  href={"/dashboard/post-category"}
+                  className="text-15 text-[#595d69] py-4 hover:text-primary flex items-center transition-all ease-in-out font-medium gap-1"
+                >
+                  <TbCategoryPlus />
+                  Category
+                </Link>
               </li>
               <li>
                 <Link

@@ -17,18 +17,32 @@ const CreateCategory = () => {
       [name]: value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      fetchData("/category/create-category", "POST", createCat);
+      const response = await fetchData(
+        "/category/create-category",
+        "POST",
+        createCat
+      );
+      console.log(response);
 
-      toast.success("Category created successfully!");
-      // Clear the form
-      setCreateCat({
-        categoryName: "",
-        categorySlug: "",
-        categoryDesc: "",
-      });
+      if (response.error) {
+        // Handle error notification
+        toast.error(response.error);
+      } else {
+        if (response.success == true) {
+          toast.success(response.message);
+          // Clear the form
+          setCreateCat({
+            categoryName: "",
+            categorySlug: "",
+            categoryDesc: "",
+          });
+        } else {
+          toast.warning(response.message);
+        }
+      }
     } catch (error) {
       // Handle error notification
       toast.error("Failed to create category.");

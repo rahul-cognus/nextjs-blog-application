@@ -5,6 +5,10 @@ const tagSchema = new mongoose.Schema({
         type: String,
         required: [true, "Tag is required"],
         unique: true,
+    },
+    slug: {
+        type: String,
+        required: [true, "Slug is required"],
     }
 }, { timestamps: true });
 

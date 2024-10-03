@@ -183,7 +183,18 @@ const CreatePost = () => {
               </select>
             </div>
           </div>
+          <div class="flex items-center mb-6">
+            <input
+              id="featured"
+              type="checkbox"
+              value=""
+              class="w-[15px] h-[15px] border border-gray-300 rounded-lg bg-[#f0f1f3] "
+            />
 
+            <label htmlFor="featured" class="ms-2 text-[#595D69] text-15">
+              Make this post featured?
+            </label>
+          </div>
           <button
             type="submit"
             className="bg-blue-600 text-white px-3 py-2 rounded text-15 font-medium  font-rubik flex items-center justify-center gap-1 w-full text-center"
