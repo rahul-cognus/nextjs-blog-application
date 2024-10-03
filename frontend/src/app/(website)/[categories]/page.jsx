@@ -77,71 +77,135 @@ const Category = () => {
     <div className="container">
       <BreadCrumb />
       <div className="flex flex-col sm:flex-row items-start gap-5 ">
+                  
         <div className="w-full sm:w-3/4">
-          <>
-            {cardData.map((item, index) => {
-              return (
-                <>
-                  <div
-                    key={index}
-                    className="bg-white rounded-xl overflow-hidden grow"
-                  >
-                    {/* <!-- Card img --> */}
-                    <div className="relative rounded-xl overflow-hidden">
-                      <Image
-                        width={600}
-                        height={450}
-                        className="w-full"
-                        src={item.imageSrc}
-                        alt="Card image"
-                      />
-                      {item.category && (
-                        <div className="absolute bottom-0 flex flex-col justify-between p-3">
-                          <Link
-                            href="#"
-                            className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}
-                          >
-                            <span className="size-2 flex rounded-full"></span>
-                            {item.category}
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                    <div className="py-3">
-                      <h4 className="text-2xl font-bold text-[#191A1F]">
-                        <Link href="post-single.html" className=" btn-link">
-                          {item.title}
-                        </Link>
-                      </h4>
-                      <p className="text-gray-700">{item.para}</p>
-                      {/* <!-- Card info --> */}
-                      <ul className="flex items-center space-x-2 mt-4 text-sm">
-                        <li className="flex items-center">
-                          <Image
-                            width={100}
-                            height={100}
-                            className="w-8 h-8 rounded-full"
-                            src={item.authorImg}
-                            alt="avatar"
-                          />
-                          <span className="ml-2">
-                            by{" "}
-                            <Link
-                              href="#"
-                              className="text-blue-500 hover:underline"
-                            >
-                              {item.authorName}
-                            </Link>
-                          </span>
-                        </li>
-                        <li className="ml-auto">{item.date}</li>
-                      </ul>
-                    </div>
+            <h2 className="text-5xl font-bold leading-[130%] mb-2">Photography</h2>
+            <div
+                      href="#"
+                      className={`w-fit flex items-center gap-2 text-sm px-2 py-1 rounded bg-green-400 my-2 text-white font-meduim [&>span]:bg-black`}
+                    >
+                      
+                      14 Post
+            </div>
+            <p className="text-gray-400 my-4">He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay assistance joy. Unaffected at ye of compliment alteration to</p>
+
+            <div className="bg-white rounded-xl overflow-hidden grow">
+              {/* <!-- Card img --> */}
+              <div className="relative rounded-xl overflow-hidden ">
+                <Image
+                  width={600}
+                  height={450}
+                  className="w-full object-cover"
+                  src={'/images/blog/16by9/06.jpg'}
+                  alt="Card image"
+                />
+                  <div className="absolute bottom-0 flex flex-col justify-between p-3">
+                    <Link
+                      href="#"
+                      className={`flex items-center gap-2 text-xs px-2 py-1 rounded bg-warning text-black [&>span]:bg-black`}
+                    >
+                      <span className="size-2 flex rounded-full"></span>
+                      Technology
+                    </Link>
                   </div>
-                </>
-              );
-            })}
-          </>
+              </div>
+              <div className="py-3">
+                <h4 className="text-3xl font-bold text-[#191A1F] mb-2">
+                  <Link href="post-single.html" className=" btn-link">
+                  12 worst types of business accounts you follow on Twitter
+                  </Link>
+                </h4>
+                <p className="text-gray-400">He moonlights difficult engrossed it, sportsmen. Interested has all Devonshire difficulty gay assistance joy. Unaffected at ye of compliment alteration to</p>
+                {/* <!-- Card info --> */}
+                <ul className="flex items-center space-x-2 mt-4 text-sm">
+                  <li className="flex items-center">
+                    <Image
+                      width={100}
+                      height={100}
+                      className="w-8 h-8 rounded-full"
+                      src={'/images/avatar/01.jpg'}
+                      alt="avatar"
+                    />
+                    <span className="ml-2">
+                      by{" "}
+                      <Link
+                        href="#"
+                        className="btn-link"
+                      >
+                      Samuel
+                      </Link>
+                    </span>
+                  </li>
+                  <li className="ml-auto">Jan 22, 2022</li>
+                </ul>
+              </div>
+            </div>
+            <div className="flex items-start gap-5 flex-wrap my-8">
+              <>
+                {cardData.map((item, index) => {
+                  return (
+                    <>
+                      <div
+                        key={index}
+                        className="bg-white rounded-xl overflow-hidden grow w-2/5 "
+                      >
+                        {/* <!-- Card img --> */}
+                        <div className="relative rounded-xl overflow-hidden">
+                          <Image
+                            width={600}
+                            height={450}
+                            className="w-full"
+                            src={item.imageSrc}
+                            alt="Card image"
+                          />
+                          {item.category && (
+                            <div className="absolute bottom-0 flex flex-col justify-between p-3">
+                              <Link
+                                href="#"
+                                className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}
+                              >
+                                <span className="size-2 flex rounded-full"></span>
+                                {item.category}
+                              </Link>
+                            </div>
+                          )}
+                        </div>
+                        <div className="py-3">
+                          <h4 className="text-2xl font-bold text-[#191A1F]">
+                            <Link href="post-single.html" className=" btn-link">
+                              {item.title}
+                            </Link>
+                          </h4>
+                          <p className="text-gray-700">{item.para}</p>
+                          {/* <!-- Card info --> */}
+                          <ul className="flex items-center space-x-2 mt-4 text-sm">
+                            <li className="flex items-center">
+                              <Image
+                                width={100}
+                                height={100}
+                                className="w-8 h-8 rounded-full"
+                                src={item.authorImg}
+                                alt="avatar"
+                              />
+                              <span className="ml-2">
+                                by{" "}
+                                <Link
+                                  href="#"
+                                  className="text-blue-500 hover:underline"
+                                >
+                                  {item.authorName}
+                                </Link>
+                              </span>
+                            </li>
+                            <li className="ml-auto">{item.date}</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })}
+              </>
+            </div>
         </div>
         <div className="w-full sm:w-1/4 sticky top-0">
           <TrendingTopic title={"Other Categories"} />
