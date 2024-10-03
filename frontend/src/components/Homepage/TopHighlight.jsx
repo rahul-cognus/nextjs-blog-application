@@ -4,6 +4,7 @@ import TrendingTopic from '@/components/Homepage/TrendingTopic';
 import RecentTopics from './RecentTopic';
 import Cards from './Card';
 import Heading from './Heading';
+import { BsHourglassTop } from "react-icons/bs"
 
 const cardData = [
     {imageSrc : "/images/blog/4by3/01.jpg",category:"Technology",categoryStyle:"bg-warning text-black [&>span]:bg-black",isSponsored:true,title:"12 worst types of business accounts you follow on Twitter",
@@ -44,7 +45,11 @@ const TopHighlight = () => {
 const MainContent = () => {
     return(
         <div className=' col-span-3 grid gap-4'>
-            <Heading />
+            <Heading 
+            icon = {<BsHourglassTop />} 
+            heading = "Today's top highlights" 
+            para = "Latest breaking news, pictures, videos, and special reports"
+             />
             <div className='grid grid-rows-3 grid-cols-2 gap-8'>
                 <Cards cardData={cardData} />
             </div>

@@ -1,12 +1,11 @@
-import { BsHourglassTop } from "react-icons/bs"
 
-const Heading = () => {
+const Heading = ({icon,heading,para}) => {
     return(
         <div className=''>
             <h2 className='text-[#191A1F] text-3xl flex items-center gap-2'>
-               <BsHourglassTop />  {`Today's top highlights`}
+               {icon}  {heading}
             </h2>
-            <p className='text-[#595D69] text-base'>Latest breaking news, pictures, videos, and special reports</p>
+            <p className='text-[#595D69] text-base'>{para}</p>
         </div>
     )
 }
