@@ -36,6 +36,7 @@ const SponsoredSlider = () => {
             heading = "Sponsored news" 
         />
         <div
+            className=''
             onMouseEnter={()=>setIsActive(true)}
             onMouseLeave={()=>setIsActive(false)}
         >
@@ -47,6 +48,10 @@ const SponsoredSlider = () => {
                 onSwiper={(swiper) => console.log(swiper)}
                 navigation={true}
                 loop={true}
+                autoplay={{
+                    delay: 500,
+                    disableOnInteraction: false
+                }}
                 className={`${isActive?"active":"notActive"} mt-8`}
                 >
                 {cardData.map((card,index)=>{
