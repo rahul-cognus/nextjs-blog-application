@@ -25,7 +25,6 @@ const CreateCategory = () => {
         "POST",
         createCat
       );
-      console.log(response);
 
       if (response.error) {
         // Handle error notification

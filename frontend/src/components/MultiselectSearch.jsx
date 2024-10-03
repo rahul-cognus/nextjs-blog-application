@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Autocomplete, AutocompleteItem, Chip } from "@nextui-org/react";
 import { IoCheckmarkOutline, IoClose } from "react-icons/io5";
 
-const MultiselectSearch = ({ array }) => {
+const MultiselectSearch = ({ array, onChange }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const handleSelect = (item) => {

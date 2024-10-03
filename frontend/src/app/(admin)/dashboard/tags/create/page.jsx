@@ -1,6 +1,8 @@
 "use client";
 import TitleHeader from "@/components/dashboard/TitleHeader";
+import { fetchData } from "@/lib/website";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const CreateTag = () => {
   const [createTag, setCreateTag] = useState({
@@ -14,11 +16,35 @@ const CreateTag = () => {
       [name]: value,
     }));
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetchData("/tag/create-tag", "POST", createTag);
+      // handle error
+      if (response.error) {
+        toast.error(response.error);
+      } else {
+        if (response.success == true) {
+          toast.success(response.message);
+          // clear form
+          setCreateTag({
+            tagName: "",
+            tagSlug: "",
+          });
+        } else {
+          toast.warning(response.message);
+        }
+      }
+    } catch (error) {
+      // Handle error notification
+      toast.error("Failed to create category.");
+    }
+  };
   return (
     <div className="container">
       <TitleHeader title={"Create Tag"} />
       <div className="border border-gray-200 rounded-lg h-full p-4">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="mb-5">
               <label

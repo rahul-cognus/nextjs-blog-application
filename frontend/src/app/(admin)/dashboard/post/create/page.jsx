@@ -1,8 +1,11 @@
 "use client";
 import TitleHeader from "@/components/dashboard/TitleHeader";
 import Editor from "@/components/Editor/Editor";
+import MultiselectSearch from "@/components/MultiselectSearch";
 import { fetchData } from "@/lib/website";
 import React, { useEffect, useState } from "react";
+import { Autocomplete, AutocompleteItem, Chip } from "@nextui-org/react";
+import { IoCheckmarkOutline, IoClose } from "react-icons/io5";
 
 // Utility function to generate slug
 const generateSlug = (title) => {
@@ -18,10 +21,11 @@ const CreatePost = () => {
     slug: "",
     blogDesc: "",
     content: "",
-    tags: [""],
+    tags: [],
     category: "",
   });
   const [categoriesData, setCategoriesData] = useState([]);
+  const [tagsData, setTagsData] = useState([]);
   const [slugChangedManually, setSlugChangedManually] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -64,8 +68,37 @@ const CreatePost = () => {
     };
 
     getCategories();
+    const getTags = async () => {
+      const response = await fetchData("/tag/getAllTags");
+      if (response.error) {
+        setError(response.error);
+      } else {
+        setTagsData(response.tags);
+      }
+      setLoading(false);
+    };
+    getTags();
   }, []);
-  console.log(createBlog);
+  console.log("blog data", createBlog);
+
+  // tags select data
+
+  const handleSelect = (item) => {
+    const tagId = item._id;
+    if (!createBlog.tags.includes(tagId)) {
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        tags: [...prevState.tags, tagId],
+      }));
+    } else {
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        tags: prevState.tags.filter((tag) => tag !== tagId), // Remove tag if deselected
+      }));
+    }
+  };
+
+  // tag select end
   return (
     <div className="container">
       <TitleHeader title={"Create a post"} />
@@ -130,8 +163,8 @@ const CreatePost = () => {
             </label>
             <Editor
               data={createBlog.content}
-              onChange={(e, createBlog) =>
-                setCreateBlog({ ...createBlog, content: e })
+              onChange={(e) =>
+                setCreateBlog((prevState) => ({ ...prevState, content: e }))
               }
               holder="create-blog-editor"
             />
@@ -144,7 +177,65 @@ const CreatePost = () => {
               >
                 Tags
               </label>
-              <textarea
+              <div className="">
+                <Autocomplete
+                  id="tags"
+                  aria-label="Select tags"
+                  className="w-full bg-white"
+                  selectedKey={""}
+                  variants="bordered"
+                  placeholder="Select Tags"
+                  inputProps={{
+                    classNames: {
+                      input: "ml-1",
+                      inputWrapper:
+                        "bg-transparent border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15",
+                    },
+                  }}
+                >
+                  {tagsData.map((item) => (
+                    <AutocompleteItem
+                      key={item._id}
+                      value={item._id}
+                      onClick={() => handleSelect(item)}
+                      endContent={
+                        Array.isArray(createBlog.tags) &&
+                        createBlog.tags.includes(item._id) && (
+                          <IoCheckmarkOutline className="mr-2 text-green-500" />
+                        )
+                      }
+                    >
+                      {item.name}
+                    </AutocompleteItem>
+                  ))}
+                </Autocomplete>
+                {createBlog.tags.length > 0 && (
+                  <div className="flex mt-2 w-96 flex-wrap">
+                    {createBlog.tags.map((tagId) => {
+                      // Find the tag name based on the tag ID
+                      const tag = tagsData.find((item) => item._id === tagId);
+                      return (
+                        tag && ( // Ensure tag exists
+                          <Chip
+                            key={tagId}
+                            color={"primary"}
+                            className="mr-2 mt-2"
+                            endContent={
+                              <IoClose
+                                className="mr-1 cursor-pointer"
+                                onClick={() => handleSelect(tag)} // Pass the whole tag object to handleSelect
+                              />
+                            }
+                          >
+                            {tag.name} {/* Display tag name */}
+                          </Chip>
+                        )
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              {/* <textarea
                 id="tags"
                 name="tags"
                 value={createBlog.tags}
@@ -156,7 +247,7 @@ const CreatePost = () => {
               <small className="text-[#595D69] ">
                 Maximum of 14 keywords. Keywords should all be in lowercase and
                 separated by commas. e.g. javascript, react, marketing.
-              </small>
+              </small> */}
             </div>
             <div className="mb-5">
               <label
@@ -185,15 +276,15 @@ const CreatePost = () => {
               </select>
             </div>
           </div>
-          <div class="flex items-center mb-6">
+          <div className="flex items-center mb-6">
             <input
               id="featured"
               type="checkbox"
               value=""
-              class="w-[15px] h-[15px] border border-gray-300 rounded-lg bg-[#f0f1f3] "
+              className="w-[15px] h-[15px] border border-gray-300 rounded-lg bg-[#f0f1f3] "
             />
 
-            <label htmlFor="featured" class="ms-2 text-[#595D69] text-15">
+            <label htmlFor="featured" className="ms-2 text-[#595D69] text-15">
               Make this post featured?
             </label>
           </div>

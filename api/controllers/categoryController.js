@@ -31,7 +31,7 @@ exports.createCategoryController = async (req, res) => {
       return res.status(200).send({
         success: false,
         message: "Category already exists",
-        category: categoryExists // Return the existing category (optional)
+        category: categoryExists, // Return the existing category (optional)
       });
     }
     const category = new categoryModel({
@@ -40,7 +40,7 @@ exports.createCategoryController = async (req, res) => {
       description,
     });
     await category.save();
-    res.status(200).send({
+    res.status(201).send({
       success: true,
       message: "Blog Category created successfully",
       category,
@@ -56,4 +56,4 @@ exports.createCategoryController = async (req, res) => {
 };
 
 // Delete a category by ID
-exports.deleteCategoryController = async (req, res) => { };
+exports.deleteCategoryController = async (req, res) => {};
