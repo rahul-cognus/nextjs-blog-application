@@ -32,7 +32,7 @@ const CreatePost = () => {
   const [slugChangedManually, setSlugChangedManually] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [bannerImage, setBannerImage] = useState(null);
+  // const [bannerImage, setBannerImage] = useState(null);
 
   // image uplod start
 
@@ -61,7 +61,7 @@ const CreatePost = () => {
       }
 
       const data = await res.json();
-      setBannerImage(data.fileUrl);
+      // setBannerImage(data.fileUrl);
       setCreateBlog((prevState) => ({
         ...prevState,
         bannerImage: data.fileUrl,
@@ -150,7 +150,7 @@ const CreatePost = () => {
 
   //
   const handleImageReset = () => {
-    setBannerImage(null);
+    createBlog.bannerImage(null);
   };
 
   // submit form
@@ -167,7 +167,7 @@ const CreatePost = () => {
           toast.success(response.message);
           // Clear the form
           setCreateBlog({
-            bannerImage: "",
+            bannerImage: null,
             blogTitle: "",
             slug: "",
             blogDesc: "",
@@ -192,13 +192,13 @@ const CreatePost = () => {
         <form onSubmit={handleSubmit}>
           {/* banner iamge */}
           <div className="w-full mb-5 relative">
-            {bannerImage ? (
+            {createBlog.bannerImage ? (
               <div className="w-full border-2 border-gray-300 border-dashed rounded-lg bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                 <Image
-                  src={bannerImage}
+                  src={createBlog.bannerImage}
                   width={600}
                   height={450}
-                  className="w-full"
+                  className=" m-auto"
                   alt="banner image"
                 />
               </div>
