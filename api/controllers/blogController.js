@@ -12,7 +12,7 @@ exports.getUserBlogControlller = () => { };
 
 //Create Blog
 exports.createBlogController = async (req, res) => {
-  const { title, slug, description, bannerImage, content, category, tags } =
+  const { blogTitle: title, slug, blogDesc: description, bannerImage, content, category, tags } =
     req.body;
   try {
     const blog = new blogModel({

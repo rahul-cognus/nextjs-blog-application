@@ -183,13 +183,79 @@ const page = () => {
                   </Link>
                 </td>
                 <td class="p-2">
-                  <span className="py-1 px-2 text-success bg-success-50 text-[13px] w-fit rounded-md">
-                    Live
+                  <span className="py-1 px-2 text-warning bg-warning-50 text-[13px] w-fit rounded-md">
+                    Draft
                   </span>
                 </td>
                 <td class="p-2">
                   <div className="flex items-center gap-3">
                     <Tooltip
+                      showArrow={true}
+                      content="Delete"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <FaRegTrashCan />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      showArrow={true}
+                      content="Edit"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <BsPencilSquare />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50 border-b border-slate-200">
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    Dirty little secrets about the business industry
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    Dennis Barrett
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <p class="text-15 text-[#595d69] hover:text-[#191a1f]">
+                    {" "}
+                    Jan 19, 2022
+                  </p>
+                </td>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    className=" bg-danger-600 flex items-center gap-2 py-1 px-2 rounded-md text-white text-[13px] w-fit"
+                  >
+                    <FaCircle className=" text-xs" />
+                    Photography
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <span className="py-1 px-2 text-danger-600 bg-danger-50 text-[13px] w-fit rounded-md">
+                    Removed
+                  </span>
+                </td>
+                <td class="p-2">
+                  <div className="flex items-center gap-3">
+                    <Tooltip 
                       showArrow={true}
                       content="Delete"
                       classNames={{
