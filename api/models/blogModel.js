@@ -27,7 +27,6 @@ const blogSchema = new mongoose.Schema(
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            require: [true, "user id is required"],
         },
         category: [{
             type: mongoose.Schema.Types.ObjectId,

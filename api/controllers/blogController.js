@@ -12,14 +12,15 @@ exports.getUserBlogControlller = () => { };
 
 //Create Blog
 exports.createBlogController = async (req, res) => {
-  const { blogTitle: title, slug, blogDesc: description, bannerImage, content, category, tags } =
+  const { blogTitle: title, bannerImage, slug, blogDesc: description, content, category, tags } =
     req.body;
+  // const bannerImage = req.file ? req.file.filename : null; // Get the uploaded file
   try {
     const blog = new blogModel({
       title,
       slug,
       description,
-      bannerImage,
+      bannerImage: bannerImage ? `/uploads/images/${bannerImage}` : null, // Save image path in DB
       content,
       // author: req.user._id, // Assuming the user is authenticated
       category,

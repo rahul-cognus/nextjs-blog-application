@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Autocomplete, AutocompleteItem, Chip } from "@nextui-org/react";
 import { IoCheckmarkOutline, IoClose } from "react-icons/io5";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 // Utility function to generate slug
 const generateSlug = (title) => {
@@ -18,7 +19,7 @@ const generateSlug = (title) => {
 };
 const CreatePost = () => {
   const [createBlog, setCreateBlog] = useState({
-    bannerImage: "",
+    bannerImage: null,
     blogTitle: "",
     slug: "",
     blogDesc: "",
@@ -90,7 +91,7 @@ const CreatePost = () => {
     getTags();
   }, []);
   console.log("blog data", createBlog);
-  console.log("image", bannerImage);
+
   // tags select data
 
   const handleSelect = (item) => {
@@ -114,11 +115,44 @@ const CreatePost = () => {
   const handleImageReset = () => {
     setBannerImage(null);
   };
+
+  // submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetchData("/blog/create-blog", "POST", createBlog);
+
+      if (response.error) {
+        // Handle error notification
+        toast.error(response.error);
+      } else {
+        if (response.success == true) {
+          toast.success(response.message);
+          // Clear the form
+          setCreateBlog({
+            bannerImage: "",
+            blogTitle: "",
+            slug: "",
+            blogDesc: "",
+            content: "",
+            tags: [],
+            category: "",
+          });
+        } else {
+          toast.warning(response.message);
+        }
+      }
+    } catch (error) {
+      // Handle error notification
+      toast.error("Failed to create category.");
+      console.log("submit error", error);
+    }
+  };
   return (
     <div className="container">
       <TitleHeader title={"Create a post"} />
       <div className="border border-gray-200 rounded-lg h-full p-4">
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* banner iamge */}
           <div class="w-full mb-5 relative">
             {bannerImage ? (
