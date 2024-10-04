@@ -33,6 +33,50 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
+
+  // image uplod start
+
+  const onImageFileChange = async (e) => {
+    const fileInput = e.target;
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+      console.warn("No file was chosen or file list is empty.");
+      return;
+    }
+
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        console.error("Something went wrong, check your console.");
+        return;
+      }
+
+      const data = await res.json();
+      setBannerImage(data.fileUrl);
+      setCreateBlog((prevState) => ({
+        ...prevState,
+        bannerImage: data.fileUrl,
+      }));
+    } catch (error) {
+      console.error("Something went wrong, check your console.");
+    }
+
+    // Reset file input
+    e.target.type = "text";
+    e.target.type = "file";
+  };
+
+  // image uplod end
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Automatically generate slug from blog title only if it was not changed manually
@@ -50,13 +94,6 @@ const CreatePost = () => {
       setCreateBlog((prevState) => ({
         ...prevState,
         slug: value, // Allow user to edit slug manually
-      }));
-    } else if (name === "bannerImage") {
-      const file = e.target?.files[0];
-      setBannerImage(URL.createObjectURL(file));
-      setCreateBlog((prevState) => ({
-        ...prevState,
-        bannerImage: file,
       }));
     } else {
       setCreateBlog((prevState) => ({
@@ -199,7 +236,7 @@ const CreatePost = () => {
                   type="file"
                   accept="image/*"
                   class="hidden"
-                  onChange={handleChange}
+                  onChange={onImageFileChange}
                 />
               </label>
             )}
@@ -215,7 +252,7 @@ const CreatePost = () => {
                   name="bannerImage"
                   accept="image/*"
                   value=""
-                  onChange={handleChange}
+                  onChange={onImageFileChange}
                   className="opacity-0 w-full absolute cursor-pointer"
                 />
                 <span>
