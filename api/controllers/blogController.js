@@ -2,26 +2,35 @@ const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
 
 //GET ALL BLOGS
-exports.getAllBlogsController = () => { };
+exports.getAllBlogsController = () => {};
 
 // blog by id
-exports.getBlogByIdController = () => { };
+exports.getBlogByIdController = () => {};
 
 //get blog by user
-exports.getUserBlogControlller = () => { };
+exports.getUserBlogControlller = () => {};
 
 //Create Blog
 exports.createBlogController = async (req, res) => {
-  const { blogTitle: title, bannerImage, slug, blogDesc: description, content, category, tags } =
-    req.body;
-  // const bannerImage = req.file ? req.file.filename : null; // Get the uploaded file
+  const {
+    blogTitle: title,
+    bannerImage,
+    slug,
+    blogDesc: description,
+    content,
+    category,
+    tags,
+  } = req.body;
+  // Convert content object to a JSON string
+  const stringifiedContent = JSON.stringify(content);
   try {
     const blog = new blogModel({
       title,
       slug,
       description,
-      bannerImage: bannerImage ? `/uploads/images/${bannerImage}` : null, // Save image path in DB
-      content,
+      // bannerImage: bannerImage ? `/uploads/images/${bannerImage}` : null, // Save image path in DB
+      bannerImage,
+      content: stringifiedContent, // Use the stringified content
       // author: req.user._id, // Assuming the user is authenticated
       category,
       tags,
@@ -43,7 +52,7 @@ exports.createBlogController = async (req, res) => {
 };
 
 //Update Blog
-exports.updateBlogController = () => { };
+exports.updateBlogController = () => {};
 
 //Delete Blog
-exports.deleteBlogController = () => { };
+exports.deleteBlogController = () => {};
