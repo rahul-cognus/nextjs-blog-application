@@ -3,6 +3,7 @@ import CategoryCard from "@/components/dashboard/Card/CategoryCard";
 import TitleHeader from "@/components/dashboard/TitleHeader";
 import { fetchData } from "@/lib/website";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const PostCategory = () => {
   const [categoriesData, setCategoriesData] = useState([]);
@@ -16,6 +17,7 @@ const PostCategory = () => {
 
       if (response.error) {
         setError(response.error);
+        toast.error(response.error);
       } else {
         setCategoriesData(response.categories);
       }
@@ -38,7 +40,6 @@ const PostCategory = () => {
       {/* category card */}
       <div className="grid grid-cols-3 gap-8">
         {categoriesData.map((category) => {
-          console.log(category);
           return (
             <CategoryCard
               key={category._id}

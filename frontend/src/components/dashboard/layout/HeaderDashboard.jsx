@@ -66,7 +66,7 @@ const HeaderDashboard = () => {
                   <GoPencil />
                   Blogs
                 </Link>
-                <ul className=" absolute invisible top-[120%] rounded-lg p-5 shadow-lg bg-white block group-hover:top-full opacity-0  group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out">
+                <ul className=" z-50 absolute invisible top-[120%] rounded-lg p-5 shadow-lg bg-white block group-hover:top-full opacity-0  group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-in-out">
                   <li>
                     <Link
                       href={"/dashboard/post"}
