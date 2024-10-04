@@ -1,6 +1,10 @@
 import TitleHeader from "@/components/dashboard/TitleHeader";
-import { FaSearch } from "react-icons/fa";
+import { FaCircle, FaSearch } from "react-icons/fa";
 import React from "react";
+import Link from "next/link";
+import { Button, Tooltip } from "@nextui-org/react";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { BsPencilSquare } from "react-icons/bs";
 
 const page = () => {
   return (
@@ -43,150 +47,173 @@ const page = () => {
             </select>
           </div>
         </div>
-        <div class="w-full flex justify-between items-center mb-3 mt-1 pl-3">
-          <div>
-            <h3 class="text-lg font-semibold text-slate-800">
-              Projects with Invoices
-            </h3>
-            <p class="text-slate-500">Overview of the current activities.</p>
-          </div>
-          <div class="ml-3">
-            <div class="w-full max-w-sm min-w-[200px] relative">
-              <div class="relative">
-                <input
-                  class="bg-white w-full pr-11 h-10 pl-3 py-2 bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded transition duration-200 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md"
-                  placeholder="Search for invoice..."
-                />
-                <button
-                  class="absolute h-8 w-8 right-1 top-1 my-auto px-2 flex items-center bg-white rounded "
-                  type="button"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="3"
-                    stroke="currentColor"
-                    class="w-8 h-8 text-slate-600"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
+        <div class="relative flex flex-col w-full h-full overflow-auto text-gray-700 bg-white rounded-lg bg-clip-border">
           <table class="w-full text-left table-auto min-w-max">
             <thead>
               <tr>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    Invoice Number
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Post Name
                   </p>
                 </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    Customer
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Author Name
                   </p>
                 </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    Amount
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Published Date
                   </p>
                 </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    Issued
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Category
                   </p>
                 </th>
-                <th class="p-4 border-b border-slate-200 bg-slate-50">
-                  <p class="text-sm font-normal leading-none text-slate-500">
-                    Due Date
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Status
+                  </p>
+                </th>
+                <th class="p-4 border-b border-slate-200 bg-[#212529]">
+                  <p class="text-15 font-semibold leading-none text-white">
+                    Action
                   </p>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr class="hover:bg-slate-50 border-b border-slate-200">
-                <td class="p-4 py-5">
-                  <p class="block font-semibold text-sm text-slate-800">
-                    PROJ1001
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    12 worst types of business accounts you follow on Twitter
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    Lori Stevens
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <p class="text-15 text-[#595d69] hover:text-[#191a1f]">
+                    {" "}
+                    Jan 22, 2022
                   </p>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">John Doe</p>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    className=" bg-warning flex items-center gap-2 py-1 px-2 rounded-md text-black text-[13px] w-fit"
+                  >
+                    <FaCircle className=" text-xs" />
+                    Technology
+                  </Link>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">$1,200.00</p>
+                <td class="p-2">
+                  <span className="py-1 px-2 text-success bg-success-50 text-[13px] w-fit rounded-md">
+                    Live
+                  </span>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-01</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-15</p>
+                <td class="p-2">
+                  <div className="flex items-center gap-3">
+                    <Tooltip
+                      showArrow={true}
+                      content="Delete"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <FaRegTrashCan />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      showArrow={true}
+                      content="Edit"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <BsPencilSquare />
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </td>
               </tr>
               <tr class="hover:bg-slate-50 border-b border-slate-200">
-                <td class="p-4 py-5">
-                  <p class="block font-semibold text-sm text-slate-800">
-                    PROJ1002
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    Dirty little secrets about the business industry
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    class="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
+                  >
+                    Dennis Barrett
+                  </Link>
+                </td>
+                <td class="p-2">
+                  <p class="text-15 text-[#595d69] hover:text-[#191a1f]">
+                    {" "}
+                    Jan 19, 2022
                   </p>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">Jane Smith</p>
+                <td class="p-2">
+                  <Link
+                    href={"/"}
+                    className=" bg-info flex items-center gap-2 py-1 px-2 rounded-md text-white text-[13px] w-fit"
+                  >
+                    <FaCircle className=" text-xs" />
+                    Marketing
+                  </Link>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">$850.00</p>
+                <td class="p-2">
+                  <span className="py-1 px-2 text-success bg-success-50 text-[13px] w-fit rounded-md">
+                    Live
+                  </span>
                 </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-05</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-20</p>
-                </td>
-              </tr>
-              <tr class="hover:bg-slate-50 border-b border-slate-200">
-                <td class="p-4 py-5">
-                  <p class="block font-semibold text-sm text-slate-800">
-                    PROJ1003
-                  </p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">Acme Corp</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">$2,500.00</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-07</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-21</p>
-                </td>
-              </tr>
-              <tr class="hover:bg-slate-50 border-b border-slate-200">
-                <td class="p-4 py-5">
-                  <p class="block font-semibold text-sm text-slate-800">
-                    PROJ1004
-                  </p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">Global Inc</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">$4,750.00</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-10</p>
-                </td>
-                <td class="p-4 py-5">
-                  <p class="text-sm text-slate-500">2024-08-25</p>
+                <td class="p-2">
+                  <div className="flex items-center gap-3">
+                    <Tooltip
+                      showArrow={true}
+                      content="Delete"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <FaRegTrashCan />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip
+                      showArrow={true}
+                      content="Edit"
+                      classNames={{
+                        base: ["before:bg-black"],
+                        content: ["py-2 px-4", "text-white bg-black"],
+                      }}
+                    >
+                      <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <BsPencilSquare />
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </td>
               </tr>
             </tbody>

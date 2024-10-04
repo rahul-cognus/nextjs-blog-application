@@ -26,6 +26,8 @@ module.exports = {
         'primary': '#2163e8',
         'success': '#0cbc87',
         'warning': '#f7c32e',
+        'info': "#4f9ef8",
+        'danger': '#6293e'
       },
       fontSize: {
         '10': '10px',
