@@ -23,7 +23,7 @@ const CreatePost = () => {
     blogTitle: "",
     slug: "",
     blogDesc: "",
-    content: "",
+    content: null,
     tags: [],
     category: "",
   });
@@ -150,7 +150,10 @@ const CreatePost = () => {
 
   //
   const handleImageReset = () => {
-    createBlog.bannerImage(null);
+    setCreateBlog((prevState) => ({
+      ...prevState,
+      bannerImage: "",
+    }));
   };
 
   // submit form
@@ -171,7 +174,7 @@ const CreatePost = () => {
             blogTitle: "",
             slug: "",
             blogDesc: "",
-            content: "",
+            content: null,
             tags: [],
             category: "",
           });
