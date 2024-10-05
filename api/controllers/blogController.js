@@ -2,13 +2,106 @@ const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
 
 //GET ALL BLOGS
-exports.getAllBlogsController = () => {};
+exports.getAllBlogsController = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  try {
+    const blogs = await blogModel
+      .find()
+      .populate("author category tags")
+      .skip(skip)
+      .limit(limit)
+      .exec();
+    const totalBlogs = await blogModel.countDocuments();
+
+    res.status(200).send({
+      success: true,
+      message: "All blogs fetched successfully",
+      blogs,
+      totalBlogs,
+      currentPage: page,
+      totalPages: Math.ceil(totalBlogs / limit),
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching blogs",
+      error,
+    });
+  }
+};
 
 // blog by id
-exports.getBlogByIdController = () => {};
+exports.getBlogByIdController = async (req, res) => {
+  const { id } = req.params;
 
-//get blog by user
-exports.getUserBlogControlller = () => {};
+  try {
+    const blog = await blogModel.findById(id).populate("author category tags");
+
+    if (!blog) {
+      return res.status(404).send({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Blog fetched successfully",
+      blog,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching blog",
+      error,
+    });
+  }
+};
+
+// Get Blogs by User with Pagination
+exports.getUserBlogController = async (req, res) => {
+  const { userId } = req.params;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    const blogs = await blogModel
+      .find({ author: userId })
+      .populate("author category tags")
+      .skip(skip)
+      .limit(limit)
+      .exec();
+    const totalBlogs = await blogModel.countDocuments({ author: userId });
+
+    if (!blogs.length) {
+      return res.status(404).send({
+        success: false,
+        message: "No blogs found for this user",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "User blogs fetched successfully",
+      blogs,
+      totalBlogs,
+      currentPage: page,
+      totalPages: Math.ceil(totalBlogs / limit),
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching user's blogs",
+      error,
+    });
+  }
+};
 
 //Create Blog
 exports.createBlogController = async (req, res) => {
@@ -28,10 +121,9 @@ exports.createBlogController = async (req, res) => {
       title,
       slug,
       description,
-      // bannerImage: bannerImage ? `/uploads/images/${bannerImage}` : null, // Save image path in DB
       bannerImage,
       content: stringifiedContent, // Use the stringified content
-      // author: req.user._id, // Assuming the user is authenticated
+      author: req.user._id, // Assuming the user is authenticated
       category,
       tags,
     });
@@ -52,7 +144,114 @@ exports.createBlogController = async (req, res) => {
 };
 
 //Update Blog
-exports.updateBlogController = () => {};
+// Update Blog
+exports.updateBlogController = async (req, res) => {
+  const { id } = req.params;
+  const {
+    blogTitle: title,
+    bannerImage,
+    slug,
+    blogDesc: description,
+    content,
+    category,
+    tags,
+    status,
+  } = req.body;
+
+  try {
+    const blog = await blogModel.findById(id);
+
+    if (!blog) {
+      return res.status(404).send({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    blog.title = title || blog.title;
+    blog.slug = slug || blog.slug;
+    blog.description = description || blog.description;
+    blog.content = JSON.stringify(content) || blog.content;
+    blog.bannerImage = bannerImage || blog.bannerImage;
+    blog.category = category || blog.category;
+    blog.tags = tags || blog.tags;
+    blog.status = status || blog.status;
+
+    await blog.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Blog updated successfully",
+      blog,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error updating blog",
+      error,
+    });
+  }
+};
 
 //Delete Blog
-exports.deleteBlogController = () => {};
+// Delete Blog
+exports.deleteBlogController = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const blog = await blogModel.findByIdAndDelete(id);
+
+    if (!blog) {
+      return res.status(404).send({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "Blog deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error deleting blog",
+      error,
+    });
+  }
+};
+// Get Blog by Slug
+exports.getBlogBySlugController = async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    // Find the blog by slug
+    const blog = await blogModel
+      .findOne({ slug })
+      .populate("author category tags comments");
+
+    // If blog not found
+    if (!blog) {
+      return res.status(404).send({
+        success: false,
+        message: "Blog not found",
+      });
+    }
+
+    // Return the found blog
+    res.status(200).send({
+      success: true,
+      message: "Blog fetched successfully",
+      blog,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching blog",
+      error,
+    });
+  }
+};
