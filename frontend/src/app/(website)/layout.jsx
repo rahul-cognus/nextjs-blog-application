@@ -5,7 +5,7 @@ import React from "react";
 const WebsiteLayout = ({ children }) => {
   return (
     <div>
-      <TopAlert />
+      <TopAlert />      
       <Header />
       {children}
     </div>

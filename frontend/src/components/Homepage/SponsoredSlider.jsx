@@ -36,7 +36,7 @@ const SponsoredSlider = () => {
             heading = "Sponsored news" 
         />
         <div
-            className=''
+            className='SponsoredSlider'
             onMouseEnter={()=>setIsActive(true)}
             onMouseLeave={()=>setIsActive(false)}
         >
