@@ -22,7 +22,7 @@ router.get("/all-blog", getAllBlogsController);
 router.post(
   "/create-blog",
   // adminMiddleware,
-  // authMiddleware,
+  authMiddleware,
   upload.single("bannerImage"),
   createBlogController
 );
