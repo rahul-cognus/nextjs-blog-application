@@ -128,7 +128,7 @@ exports.createBlogController = async (req, res) => {
       description,
       bannerImage,
       content: stringifiedContent, // Use the stringified content
-      // author: req.user._id, // Assuming the user is authenticated
+      author: req.user._id, // Assuming the user is authenticated
       category,
       tags,
       status,

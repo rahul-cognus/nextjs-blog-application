@@ -1,21 +1,26 @@
 const express = require("express");
-const { updateUserController, deleteUserController, signOutController, getAllUsersController, getUserByIdController } = require("../controllers/userController");
+const {
+  updateUserController,
+  deleteUserController,
+  signOutController,
+  getAllUsersController,
+  getUserByIdController,
+} = require("../controllers/userController");
 const { adminMiddleware } = require("../middlewares/adminMiddleware");
 
 //router object
 const router = express.Router();
 
 // GET ALL USERS || GET
-router.get("/getAllUsers", adminMiddleware, getAllUsersController);
+router.get("/getAllUsers", getAllUsersController);
 // get user
-router.get('/getUserById/:userId', getUserByIdController);
-
+router.get("/getUserById/:userId", getUserByIdController);
 
 // update user
-router.put('/update/:userId', updateUserController);
+router.put("/update/:userId", updateUserController);
 // delete user
-router.delete('/delete/:userId', deleteUserController);
+router.delete("/delete/:userId", deleteUserController);
 // signout
-router.post('/signout', signOutController);
+router.post("/signout", signOutController);
 
 module.exports = router;

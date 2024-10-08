@@ -9,7 +9,7 @@ const {
 } = require("../controllers/blogController");
 const upload = require("../middlewares/upload");
 const authMiddleware = require("../middlewares/authMiddleware");
-const { adminMiddleware } = require("../middlewares/adminMiddleware");
+const adminMiddleware = require("../middlewares/adminMiddleware");
 
 //router object
 const router = express.Router();
@@ -21,7 +21,7 @@ router.get("/all-blog", getAllBlogsController);
 //POST || create blog
 router.post(
   "/create-blog",
-  // adminMiddleware,
+  adminMiddleware,
   authMiddleware,
   upload.single("bannerImage"),
   createBlogController
