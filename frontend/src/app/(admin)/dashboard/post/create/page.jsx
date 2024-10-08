@@ -26,6 +26,11 @@ const CreatePost = () => {
     content: null,
     tags: [],
     category: "",
+    status: "draft",
+    metaTitle: "",
+    robots: "",
+    metaKeywords: "",
+    metaDescription: "",
   });
   const [categoriesData, setCategoriesData] = useState([]);
   const [tagsData, setTagsData] = useState([]);
@@ -177,6 +182,11 @@ const CreatePost = () => {
             content: null,
             tags: [],
             category: "",
+            status: "draft",
+            metaTitle: "",
+            robots: "",
+            metaKeywords: "",
+            metaDescription: "",
           });
         } else {
           toast.warning(response.message);
@@ -184,10 +194,10 @@ const CreatePost = () => {
       }
     } catch (error) {
       // Handle error notification
-      toast.error("Failed to create category.");
-      console.log("submit error", error);
+      toast.error("Failed to create category.", error);
     }
   };
+
   return (
     <div className="container">
       <TitleHeader title={"Create a post"} />
@@ -353,55 +363,234 @@ const CreatePost = () => {
               </div>
             </div>
           </div>
-          <div className="mb-5">
-            <label
-              htmlFor="blogTitle"
-              className="block text-[#595D69] text-15 mb-2"
-            >
-              Blog Title
-            </label>
-            <input
-              required
-              id="blogTitle"
-              name="blogTitle"
-              type="text"
-              value={createBlog.blogTitle}
-              onChange={handleChange}
-              placeholder="Blog Title"
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
-            />
+          <div className="border border-gray-200 rounded-lg p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mb-5">
+                <label
+                  htmlFor="blogTitle"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Blog Title
+                </label>
+                <input
+                  required
+                  id="blogTitle"
+                  name="blogTitle"
+                  type="text"
+                  value={createBlog.blogTitle}
+                  onChange={handleChange}
+                  placeholder="Blog Title"
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="slug"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Slug
+                </label>
+                <input
+                  required
+                  id="slug"
+                  name="slug"
+                  type="text"
+                  value={createBlog.slug}
+                  onChange={handleChange}
+                  placeholder="Blog Slug"
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mb-5">
+                <label
+                  htmlFor="tags"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Tags
+                </label>
+                <div className="">
+                  <Autocomplete
+                    id="tags"
+                    aria-label="Select tags"
+                    className="w-full bg-white"
+                    selectedKey={""}
+                    variants="bordered"
+                    placeholder="Select Tags"
+                    inputProps={{
+                      classNames: {
+                        input: "ml-1",
+                        inputWrapper:
+                          "bg-transparent border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15",
+                      },
+                    }}
+                  >
+                    {tagsData.map((item) => (
+                      <AutocompleteItem
+                        key={item._id}
+                        value={item._id}
+                        onClick={() => handleSelect(item)}
+                        endContent={
+                          Array.isArray(createBlog.tags) &&
+                          createBlog.tags.includes(item._id) && (
+                            <IoCheckmarkOutline className="mr-2 text-green-500" />
+                          )
+                        }
+                      >
+                        {item.name}
+                      </AutocompleteItem>
+                    ))}
+                  </Autocomplete>
+                  {createBlog.tags.length > 0 && (
+                    <div className="flex mt-2 w-96 flex-wrap">
+                      {createBlog.tags.map((tagId) => {
+                        // Find the tag name based on the tag ID
+                        const tag = tagsData.find((item) => item._id === tagId);
+                        return (
+                          tag && ( // Ensure tag exists
+                            <Chip
+                              key={tagId}
+                              color={"primary"}
+                              className="mr-2 mt-2"
+                              endContent={
+                                <IoClose
+                                  className="mr-1 cursor-pointer"
+                                  onClick={() => handleSelect(tag)} // Pass the whole tag object to handleSelect
+                                />
+                              }
+                            >
+                              {tag.name} {/* Display tag name */}
+                            </Chip>
+                          )
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="category"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Category
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  value={createBlog.category}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                >
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  {categoriesData.map((category) => {
+                    return (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div className="mb-5">
+              <label
+                htmlFor="shortDescription"
+                className="block text-[#595D69] text-15 mb-2"
+              >
+                Short description
+              </label>
+              <textarea
+                id="shortDescription"
+                name="blogDesc"
+                value={createBlog.blogDesc}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                rows="3"
+                placeholder="Add description"
+              ></textarea>
+            </div>
           </div>
-          <div className="mb-5">
-            <label htmlFor="slug" className="block text-[#595D69] text-15 mb-2">
-              Slug
-            </label>
-            <input
-              required
-              id="slug"
-              name="slug"
-              type="text"
-              value={createBlog.slug}
-              onChange={handleChange}
-              placeholder="Blog Slug"
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
-            />
-          </div>
-          <div className="mb-5">
-            <label
-              htmlFor="shortDescription"
-              className="block text-[#595D69] text-15 mb-2"
-            >
-              Short description
-            </label>
-            <textarea
-              id="shortDescription"
-              name="blogDesc"
-              value={createBlog.blogDesc}
-              onChange={handleChange}
-              className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
-              rows="3"
-              placeholder="Add description"
-            ></textarea>
+          <div className="border border-gray-200 rounded-lg p-4 mt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="mb-5">
+                <label
+                  htmlFor="metaTitle"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Meta Title
+                </label>
+                <input
+                  required
+                  id="metaTitle"
+                  name="metaTitle"
+                  type="text"
+                  value={createBlog.metaTitle}
+                  onChange={handleChange}
+                  placeholder="Meta Title"
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="robots"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Robots
+                </label>
+                <select
+                  id="robots"
+                  name="robots"
+                  value={createBlog.robots}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                >
+                  <option value="" disabled>
+                    Select Robots
+                  </option>
+                  <option value="index, follow">index, follow</option>
+                  <option value="noindex, nofollow">noindex, nofollow</option>
+                </select>
+              </div>
+            </div>
+            <div className="mb-5">
+              <label
+                htmlFor="metaKeywords"
+                className="block text-[#595D69] text-15 mb-2"
+              >
+                Meta Keywords
+              </label>
+              <input
+                required
+                id="metaKeywords"
+                name="metaKeywords"
+                type="text"
+                value={createBlog.metaKeywords}
+                onChange={handleChange}
+                placeholder="Meta Keywords"
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+              />
+            </div>
+            <div className="mb-5">
+              <label
+                htmlFor="metaDescription"
+                className="block text-[#595D69] text-15 mb-2"
+              >
+                Meta description
+              </label>
+              <textarea
+                id="metaDescription"
+                name="metaDescription"
+                value={createBlog.metaDescription}
+                onChange={handleChange}
+                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+                rows="3"
+                placeholder="Add Meta description"
+              ></textarea>
+            </div>
           </div>
           <div className="mb-5">
             <label
@@ -418,124 +607,38 @@ const CreatePost = () => {
               holder="create-blog-editor"
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="mb-5">
-              <label
-                htmlFor="tags"
-                className="block text-[#595D69] text-15 mb-2"
-              >
-                Tags
+          <div className="flex items-center justify-between">
+            <div className="flex items-center mb-6">
+              <input
+                id="featured"
+                type="checkbox"
+                value=""
+                className="w-[15px] h-[15px] border border-gray-300 rounded-lg bg-[#f0f1f3] "
+              />
+
+              <label htmlFor="featured" className="ms-2 text-[#595D69] text-15">
+                Make this post featured?
               </label>
-              <div className="">
-                <Autocomplete
-                  id="tags"
-                  aria-label="Select tags"
-                  className="w-full bg-white"
-                  selectedKey={""}
-                  variants="bordered"
-                  placeholder="Select Tags"
-                  inputProps={{
-                    classNames: {
-                      input: "ml-1",
-                      inputWrapper:
-                        "bg-transparent border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15",
-                    },
-                  }}
-                >
-                  {tagsData.map((item) => (
-                    <AutocompleteItem
-                      key={item._id}
-                      value={item._id}
-                      onClick={() => handleSelect(item)}
-                      endContent={
-                        Array.isArray(createBlog.tags) &&
-                        createBlog.tags.includes(item._id) && (
-                          <IoCheckmarkOutline className="mr-2 text-green-500" />
-                        )
-                      }
-                    >
-                      {item.name}
-                    </AutocompleteItem>
-                  ))}
-                </Autocomplete>
-                {createBlog.tags.length > 0 && (
-                  <div className="flex mt-2 w-96 flex-wrap">
-                    {createBlog.tags.map((tagId) => {
-                      // Find the tag name based on the tag ID
-                      const tag = tagsData.find((item) => item._id === tagId);
-                      return (
-                        tag && ( // Ensure tag exists
-                          <Chip
-                            key={tagId}
-                            color={"primary"}
-                            className="mr-2 mt-2"
-                            endContent={
-                              <IoClose
-                                className="mr-1 cursor-pointer"
-                                onClick={() => handleSelect(tag)} // Pass the whole tag object to handleSelect
-                              />
-                            }
-                          >
-                            {tag.name} {/* Display tag name */}
-                          </Chip>
-                        )
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-              {/* <textarea
-                id="tags"
-                name="tags"
-                value={createBlog.tags}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
-                rows="1"
-                placeholder="Technology, Business.."
-              ></textarea>
-              <small className="text-[#595D69] ">
-                Maximum of 14 keywords. Keywords should all be in lowercase and
-                separated by commas. e.g. javascript, react, marketing.
-              </small> */}
             </div>
-            <div className="mb-5">
+            <div className="mb-5 flex items-center gap-2">
               <label
-                htmlFor="category"
+                htmlFor="status"
                 className="block text-[#595D69] text-15 mb-2"
               >
-                Category
+                Status
               </label>
               <select
-                id="category"
-                name="category"
-                value={createBlog.category}
+                id="status"
+                name="status"
+                value={createBlog.status}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
               >
-                <option value="" disabled>
-                  Select Category
-                </option>
-                {categoriesData.map((category) => {
-                  return (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  );
-                })}
+                <option value="draft">Draft</option>
+                <option value="unpublished">Un-Published</option>
+                <option value="published">Published</option>
               </select>
             </div>
-          </div>
-          <div className="flex items-center mb-6">
-            <input
-              id="featured"
-              type="checkbox"
-              value=""
-              className="w-[15px] h-[15px] border border-gray-300 rounded-lg bg-[#f0f1f3] "
-            />
-
-            <label htmlFor="featured" className="ms-2 text-[#595D69] text-15">
-              Make this post featured?
-            </label>
           </div>
           <button
             type="submit"

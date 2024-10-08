@@ -1,7 +1,5 @@
 import { Nunito_Sans, Rubik } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layout/Header/Header";
-import TopAlert from "@/components/layout/Header/TopAlert";
 import ToastProvider from "@/components/ToastProvider";
 import NextProvider from "@/components/NextProvider";
 
@@ -26,9 +24,7 @@ export default function RootLayout({ children }) {
         className={`${nunito_Sans.className} ${rubik.className} antialiased`}
       >
         <NextProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
+          <ToastProvider>{children}</ToastProvider>
         </NextProvider>
       </body>
     </html>

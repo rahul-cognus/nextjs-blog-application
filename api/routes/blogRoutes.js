@@ -21,8 +21,8 @@ router.get("/all-blog", getAllBlogsController);
 //POST || create blog
 router.post(
   "/create-blog",
-  adminMiddleware,
-  authMiddleware,
+  // adminMiddleware,
+  // authMiddleware,
   upload.single("bannerImage"),
   createBlogController
 );

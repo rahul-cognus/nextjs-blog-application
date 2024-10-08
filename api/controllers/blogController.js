@@ -113,6 +113,11 @@ exports.createBlogController = async (req, res) => {
     content,
     category,
     tags,
+    status,
+    metaTitle,
+    robots,
+    metaKeywords,
+    metaDescription,
   } = req.body;
   // Convert content object to a JSON string
   const stringifiedContent = JSON.stringify(content);
@@ -123,9 +128,14 @@ exports.createBlogController = async (req, res) => {
       description,
       bannerImage,
       content: stringifiedContent, // Use the stringified content
-      author: req.user._id, // Assuming the user is authenticated
+      // author: req.user._id, // Assuming the user is authenticated
       category,
       tags,
+      status,
+      metaTitle,
+      robots,
+      metaKeywords,
+      metaDescription,
     });
     await blog.save();
     res.status(201).send({
@@ -134,7 +144,6 @@ exports.createBlogController = async (req, res) => {
       blog,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Error creating blog post",
