@@ -43,6 +43,8 @@ const PostCategory = () => {
           return (
             <CategoryCard
               key={category._id}
+              setCategoriesData={setCategoriesData}
+              categoryId={category._id}
               categoryTitle={category.name}
               categoryDesc={category.description}
               totalBlogs={"846"}

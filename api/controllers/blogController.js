@@ -215,6 +215,7 @@ exports.deleteBlogController = async (req, res) => {
       return res.status(404).send({
         success: false,
         message: "Blog not found",
+        blog,
       });
     }
 
