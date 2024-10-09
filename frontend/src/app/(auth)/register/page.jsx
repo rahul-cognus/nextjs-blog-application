@@ -3,10 +3,13 @@ import { useAuth } from "@/lib/useAuth";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const { error, registerUser } = useAuth();
   const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -35,11 +38,21 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { email, password, confirmPassword, subscription } = registerData;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      subscription,
+    } = registerData;
     // Validate passwords match
     if (password !== confirmPassword) {
-      setPasswordError("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
+    }
+    if (error) {
+      toast.error(error);
     }
     console.log("subscription", subscription);
     // Validate password complexity
@@ -49,7 +62,8 @@ const Register = () => {
     //   );
     //   return;
     // }
-    registerUser({ email, password });
+    registerUser({ firstName, lastName, email, password });
+    toast.success("User Successful Register");
   };
   return (
     <main>
@@ -60,6 +74,44 @@ const Register = () => {
           </h2>
           <form className="mt-8" onSubmit={handleSubmit}>
             {/* email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="mb-5">
+                <label
+                  htmlFor="firstName"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={registerData.firstName}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all"
+                  id="firstName"
+                  placeholder="Enter First Name"
+                  required
+                ></input>
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="lastName"
+                  className="block text-[#595D69] text-15 mb-2"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={registerData.lastName}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all"
+                  id="lastName"
+                  placeholder="Enter Last Name"
+                  required
+                ></input>
+              </div>
+            </div>
             <div className="mb-5">
               <label
                 htmlFor="email"
@@ -139,12 +191,12 @@ const Register = () => {
             </div>
             {/* sign in button */}
             <div className="flex flex-col md:flex-row md:items-center justify-between">
-              {error && <p className=" text-red-500 text-15 block">{error}</p>}
+              {/* {error && <p className=" text-red-500 text-15 block">{error}</p>}
               {passwordError && (
                 <small className="text-red-500 text-15 block">
                   {passwordError}
                 </small>
-              )}
+              )} */}
               <button
                 type="submit"
                 className="bg-[#0cBC87] text-white font-medium py-2 px-4 rounded hover:bg-[#0aa073] transition-colors"

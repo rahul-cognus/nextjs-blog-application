@@ -44,6 +44,27 @@ const page = () => {
   if (loading) {
     return <p>Loading blogs...</p>;
   }
+
+  // delete blog
+  const handleDeleteBlog = async (blogId) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        const res = await fetchData(`/blog/delete-blog/${blogId}`, "DELETE");
+
+        if (res.success) {
+          setBlogsData((prevBlogs) =>
+            prevBlogs.filter((blog) => blog._id !== blogId)
+          );
+          toast.success("Blog deleted successfully");
+        } else {
+          toast.error("Error deleting blog: " + res.message);
+        }
+      } catch (error) {
+        console.error("Failed to delete blog:", error);
+        toast.error("An error occurred while deleting the blog.", error);
+      }
+    }
+  };
   return (
     <div className="container">
       <TitleHeader
@@ -154,15 +175,23 @@ const page = () => {
                   </td>
                   <td className="p-2">
                     <Link
-                      href={`/category/${blog?.category?._id}`}
+                      href={`/category/${blog?.category[0]?._id}`}
                       className=" bg-warning flex items-center gap-2 py-1 px-2 rounded-md text-black text-[13px] w-fit"
                     >
                       <FaCircle className=" text-xs" />
-                      {blog.category.name}
+                      {blog.category[0].name}
                     </Link>
                   </td>
                   <td className="p-2">
-                    <span className="py-1 px-2 text-success bg-success-50 text-[13px] w-fit rounded-md">
+                    <span
+                      className={`py-1 px-2 uppercase ${
+                        blog.status === "published"
+                          ? "text-success bg-success-50"
+                          : blog.status === "unpublished"
+                          ? "text-warning bg-warning-50"
+                          : "text-danger-600 bg-danger-50"
+                      } text-[13px] w-fit rounded-md`}
+                    >
                       {blog.status}
                     </span>
                   </td>
@@ -176,7 +205,10 @@ const page = () => {
                           content: ["py-2 px-4", "text-white bg-black"],
                         }}
                       >
-                        <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+                        <Button
+                          onClick={() => handleDeleteBlog(blog._id)}
+                          className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]"
+                        >
                           <FaRegTrashCan />
                         </Button>
                       </Tooltip>

@@ -12,9 +12,18 @@ const generateToken = (user) => {
 //create user register user
 exports.registerController = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
     // validation
-    if (!email || !password || email === "" || password === "") {
+    if (
+      !email ||
+      !password ||
+      !firstName ||
+      !lastName ||
+      email === "" ||
+      password === "" ||
+      firstName === "" ||
+      lastName === ""
+    ) {
       return res.status(400).send({
         success: false,
         message: "Please fill all fields",
@@ -32,6 +41,8 @@ exports.registerController = async (req, res) => {
 
     // save new user
     const newUser = new userModel({
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
       role,
