@@ -179,7 +179,7 @@ const page = () => {
                       className=" bg-warning flex items-center gap-2 py-1 px-2 rounded-md text-black text-[13px] w-fit"
                     >
                       <FaCircle className=" text-xs" />
-                      {blog.category[0].name}
+                      {blog.category[0]?.name}
                     </Link>
                   </td>
                   <td className="p-2">

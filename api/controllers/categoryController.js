@@ -24,6 +24,12 @@ exports.createCategoryController = async (req, res) => {
     categoryName: name,
     categorySlug: slug,
     categoryDesc: description,
+    categoryTextColor,
+    categoryBackgroundColor,
+    metaTitle,
+    robots,
+    metaKeywords,
+    metaDescription,
   } = req.body;
   try {
     const categoryExists = await categoryModel.findOne({ slug: slug });
@@ -38,6 +44,12 @@ exports.createCategoryController = async (req, res) => {
       name,
       slug,
       description,
+      categoryTextColor,
+      categoryBackgroundColor,
+      metaTitle,
+      robots,
+      metaKeywords,
+      metaDescription,
     });
     await category.save();
     res.status(201).send({

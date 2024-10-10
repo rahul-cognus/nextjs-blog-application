@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BsPencilSquare } from "react-icons/bs";
+import { FaCircle } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { toast } from "react-toastify";
 
@@ -13,6 +14,8 @@ const CategoryCard = ({
   categoryDesc,
   totalBlogs,
   setCategoriesData,
+  categoryTextColor,
+  categoryBackgroundColor,
 }) => {
   const handleDeleteCategory = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this Category?")) {
@@ -38,8 +41,10 @@ const CategoryCard = ({
   return (
     <div className="w-full border rounded-xl">
       <div className="flex items-center gap-4 p-4 border-b">
-        <div className="shadow rounded-full bg-white w-14 h-14">
-          {/* <Image className="" width={40} height={40} alt="Category Logo" /> */}
+        <div
+          className={`shadow rounded-full bg-${categoryBackgroundColor} w-14 h-14 flex items-center justify-center text-${categoryTextColor}`}
+        >
+          <FaCircle className={`text-xs text-${categoryTextColor} `} />
         </div>
         <h3>{categoryTitle}</h3>
       </div>

@@ -40,6 +40,9 @@ const PostCategory = () => {
       {/* category card */}
       <div className="grid grid-cols-3 gap-8">
         {categoriesData.map((category) => {
+          console.log("====================================");
+          console.log(category);
+          console.log("====================================");
           return (
             <CategoryCard
               key={category._id}
@@ -49,6 +52,8 @@ const PostCategory = () => {
               categoryDesc={category.description}
               totalBlogs={"846"}
               slug={category.slug}
+              categoryTextColor={category.categoryTextColor}
+              categoryBackgroundColor={category.categoryBackgroundColor}
             />
           );
         })}
