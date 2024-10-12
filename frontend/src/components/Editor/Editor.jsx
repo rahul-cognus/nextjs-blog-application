@@ -1,3 +1,4 @@
+"use client";
 import EditorJS from "@editorjs/editorjs";
 import CheckList from "@editorjs/checklist";
 import Delimiter from "@editorjs/delimiter";
@@ -15,7 +16,6 @@ import { useEffect, useRef } from "react";
 import Embed from "@editorjs/embed";
 import CodeBox from "@bomdi/codebox";
 import LinkTool from "@editorjs/link";
-const Hyperlink = require("editorjs-hyperlink");
 
 const EDITOR_TOOLS = {
   embed: Embed,
@@ -93,7 +93,6 @@ const Editor = ({ data, onChange, holder }) => {
         data,
         async onChange(api, event) {
           const content = await api.saver.save();
-          console.log(content, "sdfb");
           onChange(content);
         },
       });

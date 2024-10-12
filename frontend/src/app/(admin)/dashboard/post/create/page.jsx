@@ -1,13 +1,13 @@
 "use client";
 import TitleHeader from "@/components/dashboard/TitleHeader";
-import Editor from "@/components/Editor/Editor";
-import MultiselectSearch from "@/components/MultiselectSearch";
 import { fetchData } from "@/lib/website";
 import React, { useEffect, useState } from "react";
 import { Autocomplete, AutocompleteItem, Chip } from "@nextui-org/react";
 import { IoCheckmarkOutline, IoClose } from "react-icons/io5";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import dynamic from "next/dynamic";
+import Editor from "@/components/Editor/Editor";
 
 // Utility function to generate slug
 const generateSlug = (title) => {
@@ -194,10 +194,12 @@ const CreatePost = () => {
       }
     } catch (error) {
       // Handle error notification
-      toast.error("Failed to create category.", error);
+      toast.error("Failed to create Blog.", error);
     }
   };
-
+  // const Editor = dynamic(() => import("@/components/Editor/Editor"), {
+  //   ssr: false,
+  // });
   return (
     <div className="container">
       <TitleHeader title={"Create a post"} />
@@ -644,7 +646,7 @@ const CreatePost = () => {
             type="submit"
             className="bg-blue-600 text-white px-3 py-2 rounded text-15 font-medium  font-rubik flex items-center justify-center gap-1 w-full text-center"
           >
-            Create Category
+            Create Blog
           </button>
         </form>
       </div>

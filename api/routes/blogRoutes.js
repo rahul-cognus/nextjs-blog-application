@@ -23,7 +23,7 @@ router.post(
   "/create-blog",
   adminMiddleware,
   authMiddleware,
-  upload.single("bannerImage"),
+  // upload.single("bannerImage"),
   createBlogController
 );
 
