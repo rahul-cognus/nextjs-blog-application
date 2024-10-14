@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const blogModel = require("../models/blogModel");
+const categoryModel = require("../models/categoryModel");
 
 //GET ALL BLOGS
 exports.getAllBlogsController = async (req, res) => {
@@ -261,6 +262,50 @@ exports.getBlogBySlugController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error fetching blog",
+      error,
+    });
+  }
+};
+
+// get blog by category slug
+exports.getBlogByCategorySlugController = async (req, res) => {
+  const { categorySlug } = req.params;
+
+  try {
+    // Step 1: Find the category by its slug
+    const category = await categoryModel.findOne({ categorySlug });
+    // If category is not found
+    if (!category) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    // Step 2: Find all blogs with the matching category ID
+    const blogs = await blogModel
+      .find({ category: category._id })
+      .populate("author category tags");
+
+    // If blog not found
+    if (!blogs.length) {
+      return res.status(404).send({
+        success: false,
+        message: "No blogs found in this category",
+      });
+    }
+
+    // Return the found blog
+    res.status(200).send({
+      success: true,
+      message: `Blogs fetched successfully for category: ${categorySlug}`,
+      blogs,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error fetching blogs by category",
       error,
     });
   }

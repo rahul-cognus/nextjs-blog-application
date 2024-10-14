@@ -6,6 +6,7 @@ const {
   getBlogByIdController,
   deleteBlogController,
   getUserBlogController,
+  getBlogByCategorySlugController,
 } = require("../controllers/blogController");
 const upload = require("../middlewares/upload");
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -38,5 +39,11 @@ router.delete("/delete-blog/:id", deleteBlogController);
 
 //GET || user blog
 router.get("/user-blog/:id", getUserBlogController);
+
+// get || get blog by category slug
+router.get(
+  "/getBlogsByCategorySlug/:categorySlug",
+  getBlogByCategorySlugController
+);
 
 module.exports = router;

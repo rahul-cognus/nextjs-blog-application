@@ -8,6 +8,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { BsPencilSquare } from "react-icons/bs";
 import { fetchData } from "@/lib/website";
 import { toast } from "react-toastify";
+import Loading from "../../loading";
 
 const page = () => {
   const [blogsData, setBlogsData] = useState([]);
@@ -30,6 +31,7 @@ const page = () => {
           toast.error(response.error);
         } else {
           setBlogsData(response.blogs);
+          toast.success("Blogs successfully Fetched");
         }
         setLoading(false);
       } catch (error) {
@@ -40,10 +42,6 @@ const page = () => {
     };
     fetchBlogs();
   }, [currentPage]);
-
-  if (loading) {
-    return <p>Loading blogs...</p>;
-  }
 
   // delete blog
   const handleDeleteBlog = async (blogId) => {
@@ -65,6 +63,10 @@ const page = () => {
       }
     }
   };
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="container">
       <TitleHeader
@@ -74,7 +76,7 @@ const page = () => {
         btnUrl={"post/create"}
       />
       {/* Table start */}
-      {/* https://www.material-tailwind.com/docs/html/table# */}
+
       <div className=" border p-4 rounded-lg">
         <div className="flex items-center justify-between mb-4">
           <div className=" w-2/3">
