@@ -5,6 +5,7 @@ const {
   deleteCategoryController,
   updateCategoryController,
   getCategoryBySlugController,
+  getCategoryByIdController,
 } = require("../controllers/categoryController");
 
 //router object
@@ -16,12 +17,14 @@ router.post("/create-category", createCategoryController);
 // post || get category
 router.get("/getCategories", getCategoriesController);
 
-// post || get category
+// post || get category by slug
 router.get("/getCategoriesBySlug/:categorySlug", getCategoryBySlugController);
+// get || get category by id
+router.get("/getCategoryById/:id", getCategoryByIdController);
 //DELETE || delete blog
 router.delete("/delete-category/:id", deleteCategoryController);
 
 // update category
-router.put("/update-category/:categorySlug", updateCategoryController);
+router.put("/update-category/:id", updateCategoryController);
 
 module.exports = router;

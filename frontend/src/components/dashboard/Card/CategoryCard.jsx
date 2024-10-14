@@ -16,6 +16,7 @@ const CategoryCard = ({
   setCategoriesData,
   categoryTextColor,
   categoryBackgroundColor,
+  categorySlug,
 }) => {
   const handleDeleteCategory = async (categoryId) => {
     if (window.confirm("Are you sure you want to delete this Category?")) {
@@ -81,16 +82,19 @@ const CategoryCard = ({
                 content: ["py-2 px-4", "text-white bg-black"],
               }}
             >
-              <Button className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]">
+              <Link
+                href={`post-category/edit/${categoryId}`}
+                className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4] flex items-center justify-center"
+              >
                 <BsPencilSquare />
-              </Button>
+              </Link>
             </Tooltip>
           </div>
         </div>
       </div>
       <div className="p-4">
         <Link
-          href={"/"}
+          href={`post-category/view/${categorySlug}`}
           className=" bg-[#2163e81a] text-blue-700 hover:bg-[#2163e8] hover:text-white transition-all py-2 px-4 text-15 flex item-center justify-center font-medium rounded-lg"
         >
           View Blogs

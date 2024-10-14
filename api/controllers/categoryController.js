@@ -71,10 +71,10 @@ exports.createCategoryController = async (req, res) => {
 
 // update category
 exports.updateCategoryController = async (req, res) => {
-  const { categorySlug } = req.params;
+  const { id } = req.params;
   const {
     categoryName,
-    // categorySlug,
+    categorySlug,
     categoryDesc,
     categoryTextColor,
     categoryBackgroundColor,
@@ -86,7 +86,7 @@ exports.updateCategoryController = async (req, res) => {
 
   try {
     // Check if the category exists by its ID
-    const category = await categoryModel.findOne({ categorySlug });
+    const category = await categoryModel.findById(id);
     if (!category) {
       return res.status(404).send({
         success: false,
@@ -176,6 +176,34 @@ exports.getCategoryBySlugController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error Getting Category",
+      error,
+    });
+  }
+};
+
+// get Category by id
+exports.getCategoryByIdController = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await categoryModel.findById(id);
+    // if category not found
+    if (!category) {
+      return res.status(404).send({
+        success: false,
+        message: "Category not found",
+      });
+    }
+    // return the found blog
+    res.status(200).send({
+      success: true,
+      message: "Category fetched successfully",
+      category,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error Getting Category By Id",
       error,
     });
   }

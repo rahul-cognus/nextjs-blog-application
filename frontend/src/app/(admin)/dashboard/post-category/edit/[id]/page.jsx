@@ -3,8 +3,13 @@ import TitleHeader from "@/components/dashboard/TitleHeader";
 import React, { useEffect, useState } from "react";
 import { fetchData } from "@/lib/website";
 import { toast } from "react-toastify";
+import { useParams } from "next/navigation";
+import Loading from "../../../loading";
 
 const UpdateCategory = () => {
+  const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const id = params.id;
   const [updateCat, setUpdateCat] = useState({
     categoryName: "",
     categorySlug: "",
@@ -16,14 +21,14 @@ const UpdateCategory = () => {
     metaKeywords: "",
     metaDescription: "",
   });
-  const categorySlug = "technology";
+
   // Fetch existing category data when component mounts
   useEffect(() => {
-    if (categorySlug) {
+    if (id) {
       const fetchCategory = async () => {
         try {
           const response = await fetchData(
-            `/category/getCategoriesBySlug/${categorySlug}`,
+            `/category/getCategoryById/${id}`,
             "GET"
           );
           if (response.error) {
@@ -31,13 +36,14 @@ const UpdateCategory = () => {
           } else {
             setUpdateCat(response.category);
           }
+          setLoading(false);
         } catch (error) {
           toast.error("Failed to load category data.");
         }
       };
       fetchCategory();
     }
-  }, [categorySlug]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,7 +56,7 @@ const UpdateCategory = () => {
     e.preventDefault();
     try {
       const response = await fetchData(
-        `/category/update-category/${categorySlug}`,
+        `/category/update-category/${id}`,
         "PUT",
         updateCat
       );
@@ -61,18 +67,6 @@ const UpdateCategory = () => {
       } else {
         if (response.success == true) {
           toast.success(response.message);
-          // Clear the form
-          // setUpdateCat({
-          //   categoryName: "",
-          //   categorySlug: "",
-          //   categoryDesc: "",
-          //   categoryTextColor: "",
-          //   categoryBackgroundColor: "",
-          //   metaTitle: "",
-          //   robots: "",
-          //   metaKeywords: "",
-          //   metaDescription: "",
-          // });
         } else {
           toast.warning(response.message);
         }
@@ -82,9 +76,7 @@ const UpdateCategory = () => {
       toast.error("Failed to Update category.");
     }
   };
-  console.log("====================================");
-  console.log(updateCat);
-  console.log("====================================");
+  if (loading) return <Loading />;
   return (
     <div className="container">
       <TitleHeader title={"Update Category"} />

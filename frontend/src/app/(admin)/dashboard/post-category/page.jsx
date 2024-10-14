@@ -4,6 +4,7 @@ import TitleHeader from "@/components/dashboard/TitleHeader";
 import { fetchData } from "@/lib/website";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Loading from "../loading";
 
 const PostCategory = () => {
   const [categoriesData, setCategoriesData] = useState([]);
@@ -26,7 +27,7 @@ const PostCategory = () => {
 
     getCategories();
   }, []);
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -40,18 +41,15 @@ const PostCategory = () => {
       {/* category card */}
       <div className="grid grid-cols-3 gap-8">
         {categoriesData.map((category) => {
-          console.log("====================================");
-          console.log(category);
-          console.log("====================================");
           return (
             <CategoryCard
               key={category._id}
               setCategoriesData={setCategoriesData}
               categoryId={category._id}
-              categoryTitle={category.name}
-              categoryDesc={category.description}
+              categoryTitle={category.categoryName}
+              categoryDesc={category.categoryDesc}
               totalBlogs={"846"}
-              slug={category.slug}
+              categorySlug={category.categorySlug}
               categoryTextColor={category.categoryTextColor}
               categoryBackgroundColor={category.categoryBackgroundColor}
             />
