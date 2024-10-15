@@ -34,12 +34,20 @@ const ViewCategory = () => {
           }
         );
 
-        if (response.error) {
-          setError(response.error);
-          toast.error(response.error);
-        } else {
+        // if (response.error) {
+        //   setError(response.error);
+        //   toast.error(response.error);
+        // } else {
+        //   setBlogsData(response.blogs);
+        //   toast.success("Blogs successfully Fetched");
+        // }
+        if (response.success) {
           setBlogsData(response.blogs);
           toast.success("Blogs successfully Fetched");
+        } else {
+          // setError(response.message);
+          toast.error(response.message);
+          setBlogsData([]);
         }
         setLoading(false);
       } catch (error) {
