@@ -25,6 +25,11 @@ const CreateCategory = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Perform additional validation before submitting
+    if (!createCat.categoryName || !createCat.categorySlug) {
+      toast.error("Category name and slug are required.");
+      return;
+    }
     try {
       const response = await fetchData(
         "/category/create-category",
@@ -36,7 +41,7 @@ const CreateCategory = () => {
         // Handle error notification
         toast.error(response.error);
       } else {
-        if (response.success == true) {
+        if (response.success) {
           toast.success(response.message);
           // Clear the form
           setCreateCat({
@@ -74,7 +79,6 @@ const CreateCategory = () => {
                   Category name
                 </label>
                 <input
-                  required
                   id="categoryName"
                   name="categoryName"
                   type="text"
@@ -92,7 +96,6 @@ const CreateCategory = () => {
                   Category Slug
                 </label>
                 <input
-                  required
                   id="categorySlug"
                   name="categorySlug"
                   type="text"

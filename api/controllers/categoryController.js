@@ -32,14 +32,20 @@ exports.createCategoryController = async (req, res) => {
     metaDescription,
   } = req.body;
   try {
-    const categoryExists = await categoryModel.findOne({
-      categorySlug: categorySlug,
-    });
-    if (categoryExists) {
-      return res.status(200).send({
+    // Check if categoryName or categorySlug already exists
+    const categoryExistsByName = await categoryModel.findOne({ categoryName });
+    const categoryExistsBySlug = await categoryModel.findOne({ categorySlug });
+    if (categoryExistsByName) {
+      return res.status(400).send({
         success: false,
-        message: "Category already exists",
-        category: categoryExists, // Return the existing category (optional)
+        message: "Category name already exists",
+      });
+    }
+
+    if (categoryExistsBySlug) {
+      return res.status(400).send({
+        success: false,
+        message: "Category slug already exists",
       });
     }
     const category = new categoryModel({

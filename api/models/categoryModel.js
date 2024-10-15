@@ -10,6 +10,7 @@ const categorySchema = new mongoose.Schema(
     categorySlug: {
       type: String,
       required: [true, "Slug is Required"],
+      unique: true,
     },
     categoryDesc: {
       type: String,
