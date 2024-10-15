@@ -31,7 +31,15 @@ export const fetchData = async (apiUrl, method = "GET", payload = {}) => {
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${apiUrl}`, {
+    // Build the full URL with query parameters if it's a GET request
+    const fullUrl =
+      method === "GET" && payload
+        ? `${process.env.NEXT_PUBLIC_API_URL}${apiUrl}?${new URLSearchParams(
+            payload
+          ).toString()}`
+        : `${process.env.NEXT_PUBLIC_API_URL}${apiUrl}`;
+
+    const res = await fetch(fullUrl, {
       cache:
         process.env.NEXT_PUBLIC_APP_MODE === "production"
           ? "force-cache"

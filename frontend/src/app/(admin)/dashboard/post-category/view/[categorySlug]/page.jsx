@@ -14,7 +14,10 @@ import Loading from "../../../loading";
 const ViewCategory = () => {
   const params = useParams();
   const categorySlug = params.categorySlug;
-  const [blogData, setBlogsData] = useState([]);
+  const [blogsData, setBlogsData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState("all"); // For status filter
+  const [sort, setSort] = useState("newest"); // For sorting filter
   const [loading, setLoading] = useState(true);
   // fetch blogs by category
   useEffect(() => {
@@ -23,7 +26,12 @@ const ViewCategory = () => {
       try {
         const response = await fetchData(
           `/blog/getBlogsByCategorySlug/${categorySlug}`,
-          "GET"
+          "GET",
+          {
+            searchTerm,
+            status,
+            sort,
+          }
         );
 
         if (response.error) {
@@ -41,9 +49,30 @@ const ViewCategory = () => {
       }
     };
     fetchBlogs();
-  }, [categorySlug]);
-  console.log("data", blogData);
-  console.log("single", blogData.length);
+  }, [searchTerm, status, sort, categorySlug]); // Re-fetch blogs whenever filters change
+  console.log("data", blogsData);
+  console.log("single", blogsData.length);
+
+  // delete blog
+  const handleDeleteBlog = async (blogId) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      try {
+        const res = await fetchData(`/blog/delete-blog/${blogId}`, "DELETE");
+
+        if (res.success) {
+          setBlogsData((prevBlogs) =>
+            prevBlogs.filter((blog) => blog._id !== blogId)
+          );
+          toast.success("Blog deleted successfully");
+        } else {
+          toast.error("Error deleting blog: " + res.message);
+        }
+      } catch (error) {
+        console.error("Failed to delete blog:", error);
+        toast.error("An error occurred while deleting the blog.", error);
+      }
+    }
+  };
   if (loading) {
     return <Loading />;
   }
@@ -51,37 +80,57 @@ const ViewCategory = () => {
   return (
     <div className="container">
       <TitleHeader
-        title={`${blogData[0]?.category[0]?.categoryName}`}
-        count={`${blogData.length}`}
+        title={`${blogsData[0]?.category[0]?.categoryName}`}
+        count={`${blogsData.length}`}
       />
       {/* Table Start */}
       <div className=" border p-4 rounded-lg">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 gap-5">
           <div className=" w-2/3">
             <form className=" relative">
               <div className="flex items-center border border-gray-300 rounded-lg w-full group px-2">
                 <input
                   type="search"
+                  value={searchTerm}
                   className="w-full py-2 px-4 focus:outline-none group-focus:border-blue-800    transtion-all text-15"
-                  placeholder="Search"
+                  placeholder="Search by blog name or slug"
                   aria-label="Search"
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className=" p-1">
+                {/* <button className=" p-1">
                   <FaSearch />
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
           <div className="w-1/4">
             <select
+              id="status"
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
+            >
+              <option value="all">All</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+              <option value="unpublished">Unpublished</option>
+            </select>
+          </div>
+          <div className="w-1/4">
+            <select
               id="category"
               name="category"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
               className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
             >
               <option value="" disabled>
                 Select Filter
               </option>
-              <option>Oldest</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="trending">Trending</option>
             </select>
           </div>
         </div>
@@ -122,7 +171,7 @@ const ViewCategory = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {blogsData.map((blog) => (
+              {blogsData.map((blog) => (
                 <tr
                   key={blog._id}
                   className="hover:bg-slate-50 border-b border-slate-200"
@@ -140,7 +189,7 @@ const ViewCategory = () => {
                       href={`/author/${blog?.author?._id}`}
                       className="block font-medium text-15 text-[#191a1f] hover:text-primary transition-all duration-300"
                     >
-                      {blog?.author?.name}
+                      {blog?.author?.firstName + " " + blog?.author?.lastName}
                     </Link>
                   </td>
                   <td className="p-2">
@@ -207,9 +256,9 @@ const ViewCategory = () => {
                     </div>
                   </td>
                 </tr>
-              ))} */}
+              ))}
 
-              <tr className="hover:bg-slate-50 border-b border-slate-200">
+              {/* <tr className="hover:bg-slate-50 border-b border-slate-200">
                 <td className="p-2">
                   <Link
                     href={"/"}
@@ -340,7 +389,7 @@ const ViewCategory = () => {
                     </Tooltip>
                   </div>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
 

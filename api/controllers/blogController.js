@@ -268,9 +268,53 @@ exports.getBlogBySlugController = async (req, res) => {
 };
 
 // get blog by category slug
+// exports.getBlogByCategorySlugController = async (req, res) => {
+//   const { categorySlug } = req.params;
+
+//   try {
+//     // Step 1: Find the category by its slug
+//     const category = await categoryModel.findOne({ categorySlug });
+//     // If category is not found
+//     if (!category) {
+//       return res.status(404).send({
+//         success: false,
+//         message: "Category not found",
+//       });
+//     }
+
+//     // Step 2: Find all blogs with the matching category ID
+//     const blogs = await blogModel
+//       .find({ category: category._id })
+//       .populate("author category tags");
+
+//     // If blog not found
+//     if (!blogs.length) {
+//       return res.status(404).send({
+//         success: false,
+//         message: "No blogs found in this category",
+//       });
+//     }
+
+//     // Return the found blog
+//     res.status(200).send({
+//       success: true,
+//       message: `Blogs fetched successfully for category: ${categorySlug}`,
+//       blogs,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send({
+//       success: false,
+//       message: "Error fetching blogs by category",
+//       error,
+//     });
+//   }
+// };
+
 exports.getBlogByCategorySlugController = async (req, res) => {
   const { categorySlug } = req.params;
-
+  // Get searchTerm, status, and sort from query parameters
+  const { searchTerm, status, sort } = req.query;
   try {
     // Step 1: Find the category by its slug
     const category = await categoryModel.findOne({ categorySlug });
@@ -281,13 +325,39 @@ exports.getBlogByCategorySlugController = async (req, res) => {
         message: "Category not found",
       });
     }
-
-    // Step 2: Find all blogs with the matching category ID
+    console.log("search", searchTerm, status, sort);
+    // Step 2: Prepare the filter object
+    const filter = { category: category._id };
+    // Add search term filter if provided
+    if (searchTerm) {
+      const regex = new RegExp(searchTerm, "i"); // Case-insensitive regex
+      filter.$or = [
+        { title: { $regex: regex } }, // Filter by blog title
+        { slug: { $regex: regex } }, // Filter by blog slug
+      ];
+    }
+    // Add status filter if provided
+    if (status && status !== "all") {
+      filter.status = status; // Only include blogs with the selected status
+    }
+    // Set sorting criteria
+    let sortOptions;
+    if (sort === "newest") {
+      sortOptions = { createdAt: -1 }; // Newest first
+    } else if (sort === "oldest") {
+      sortOptions = { createdAt: 1 }; // Oldest first
+    } else if (sort === "trending") {
+      sortOptions = { views: -1 }; // Assuming you have a views field for trending
+    } else {
+      sortOptions = {}; // Default sorting (could be based on createdAt or any other criteria)
+    }
+    // Step 3: Find all blogs with the matching category ID and optional filters
     const blogs = await blogModel
-      .find({ category: category._id })
+      .find(filter)
+      .sort(sortOptions)
       .populate("author category tags");
 
-    // If blog not found
+    // If no blogs found
     if (!blogs.length) {
       return res.status(404).send({
         success: false,
@@ -295,7 +365,7 @@ exports.getBlogByCategorySlugController = async (req, res) => {
       });
     }
 
-    // Return the found blog
+    // Return the found blogs
     res.status(200).send({
       success: true,
       message: `Blogs fetched successfully for category: ${categorySlug}`,
