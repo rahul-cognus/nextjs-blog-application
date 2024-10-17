@@ -8,6 +8,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import dynamic from "next/dynamic";
 import Editor from "@/components/Editor/Editor";
+import { useParams } from "next/navigation";
 
 // Utility function to generate slug
 const generateSlug = (title) => {
@@ -18,7 +19,9 @@ const generateSlug = (title) => {
     .replace(/^-+|-+$/g, "");
 };
 const EditPost = () => {
-  const [createBlog, setCreateBlog] = useState({
+  const params = useParams();
+  const id = params.id;
+  const [updateBlog, setUpdateBlog] = useState({
     bannerImage: null,
     blogTitle: "",
     slug: "",
@@ -38,6 +41,41 @@ const EditPost = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // const [bannerImage, setBannerImage] = useState(null);
+
+  // Fetch existing category data when component mounts
+  useEffect(() => {
+    if (id) {
+      const fetchBlog = async () => {
+        try {
+          const response = await fetchData(`/blog/get-blog/${id}`, "GET");
+          if (response.error) {
+            toast.error(response.error);
+          } else {
+            const blogData = response.blog;
+            setUpdateBlog({
+              bannerImage: blogData.bannerImage,
+              blogTitle: blogData.title,
+              slug: blogData.slug,
+              blogDesc: blogData.description,
+              content: JSON.parse(blogData.content),
+              tags: blogData.tags.map((tag) => tag._id),
+              category:
+                blogData.category.length > 0 ? blogData.category[0]._id : "",
+              status: blogData.status,
+              metaTitle: blogData.metaTitle,
+              robots: blogData.robots,
+              metaKeywords: blogData.metaKeywords,
+              metaDescription: blogData.metaDescription,
+            });
+          }
+          setLoading(false);
+        } catch (error) {
+          toast.error("Failed to load Blog data.");
+        }
+      };
+      fetchBlog();
+    }
+  }, [id]);
 
   // image uplod start
 
@@ -67,7 +105,7 @@ const EditPost = () => {
 
       const data = await res.json();
       // setBannerImage(data.fileUrl);
-      setCreateBlog((prevState) => ({
+      setUpdateBlog((prevState) => ({
         ...prevState,
         bannerImage: data.fileUrl,
       }));
@@ -88,20 +126,20 @@ const EditPost = () => {
     if (name === "blogTitle") {
       const generatedSlug = !slugChangedManually
         ? generateSlug(value)
-        : createBlog.slug;
-      setCreateBlog((prevState) => ({
+        : updateBlog.slug;
+      setUpdateBlog((prevState) => ({
         ...prevState,
         blogTitle: value,
         slug: generatedSlug, // Keep the slug intact if manually changed
       }));
     } else if (name === "slug") {
       setSlugChangedManually(true); // Mark slug as manually changed
-      setCreateBlog((prevState) => ({
+      setUpdateBlog((prevState) => ({
         ...prevState,
         slug: value, // Allow user to edit slug manually
       }));
     } else {
-      setCreateBlog((prevState) => ({
+      setUpdateBlog((prevState) => ({
         ...prevState,
         [name]: value,
       }));
@@ -132,19 +170,19 @@ const EditPost = () => {
     };
     getTags();
   }, []);
-  console.log("blog data", createBlog);
+  console.log("blog data", updateBlog);
 
   // tags select data
 
   const handleSelect = (item) => {
     const tagId = item._id;
-    if (!createBlog.tags.includes(tagId)) {
-      setCreateBlog((prevState) => ({
+    if (!updateBlog.tags.includes(tagId)) {
+      setUpdateBlog((prevState) => ({
         ...prevState,
         tags: [...prevState.tags, tagId],
       }));
     } else {
-      setCreateBlog((prevState) => ({
+      setUpdateBlog((prevState) => ({
         ...prevState,
         tags: prevState.tags.filter((tag) => tag !== tagId), // Remove tag if deselected
       }));
@@ -155,7 +193,7 @@ const EditPost = () => {
 
   //
   const handleImageReset = () => {
-    setCreateBlog((prevState) => ({
+    setUpdateBlog((prevState) => ({
       ...prevState,
       bannerImage: "",
     }));
@@ -165,7 +203,7 @@ const EditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetchData("/blog/create-blog", "POST", createBlog);
+      const response = await fetchData("/blog/create-blog", "POST", updateBlog);
 
       if (response.error) {
         // Handle error notification
@@ -174,20 +212,20 @@ const EditPost = () => {
         if (response.success == true) {
           toast.success(response.message);
           // Clear the form
-          setCreateBlog({
-            bannerImage: null,
-            blogTitle: "",
-            slug: "",
-            blogDesc: "",
-            content: null,
-            tags: [],
-            category: "",
-            status: "draft",
-            metaTitle: "",
-            robots: "",
-            metaKeywords: "",
-            metaDescription: "",
-          });
+          // setUpdateBlog({
+          //   bannerImage: null,
+          //   blogTitle: "",
+          //   slug: "",
+          //   blogDesc: "",
+          //   content: null,
+          //   tags: [],
+          //   category: "",
+          //   status: "draft",
+          //   metaTitle: "",
+          //   robots: "",
+          //   metaKeywords: "",
+          //   metaDescription: "",
+          // });
         } else {
           toast.warning(response.message);
         }
@@ -202,15 +240,15 @@ const EditPost = () => {
   // });
   return (
     <div className="container">
-      <TitleHeader title={"Create a post"} />
+      <TitleHeader title={"Update a post"} />
       <div className="border border-gray-200 rounded-lg h-full p-4">
         <form onSubmit={handleSubmit}>
           {/* banner iamge */}
           <div className="w-full mb-5 relative">
-            {createBlog.bannerImage ? (
+            {updateBlog?.bannerImage ? (
               <div className="w-full border-2 border-gray-300 border-dashed rounded-lg bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                 <Image
-                  src={createBlog.bannerImage}
+                  src={updateBlog.bannerImage}
                   width={600}
                   height={450}
                   className=" m-auto"
@@ -379,7 +417,7 @@ const EditPost = () => {
                   id="blogTitle"
                   name="blogTitle"
                   type="text"
-                  value={createBlog.blogTitle}
+                  value={updateBlog?.blogTitle}
                   onChange={handleChange}
                   placeholder="Blog Title"
                   className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
@@ -397,7 +435,7 @@ const EditPost = () => {
                   id="slug"
                   name="slug"
                   type="text"
-                  value={createBlog.slug}
+                  value={updateBlog?.slug}
                   onChange={handleChange}
                   placeholder="Blog Slug"
                   className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
@@ -434,8 +472,8 @@ const EditPost = () => {
                         value={item._id}
                         onClick={() => handleSelect(item)}
                         endContent={
-                          Array.isArray(createBlog.tags) &&
-                          createBlog.tags.includes(item._id) && (
+                          Array.isArray(updateBlog.tags) &&
+                          updateBlog.tags.includes(item._id) && (
                             <IoCheckmarkOutline className="mr-2 text-green-500" />
                           )
                         }
@@ -444,9 +482,9 @@ const EditPost = () => {
                       </AutocompleteItem>
                     ))}
                   </Autocomplete>
-                  {createBlog.tags.length > 0 && (
+                  {updateBlog?.tags?.length > 0 && (
                     <div className="flex mt-2 w-96 flex-wrap">
-                      {createBlog.tags.map((tagId) => {
+                      {updateBlog?.tags.map((tagId) => {
                         // Find the tag name based on the tag ID
                         const tag = tagsData.find((item) => item._id === tagId);
                         return (
@@ -481,7 +519,7 @@ const EditPost = () => {
                 <select
                   id="category"
                   name="category"
-                  value={createBlog.category}
+                  value={updateBlog?.category}
                   onChange={handleChange}
                   className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
                 >
@@ -508,7 +546,7 @@ const EditPost = () => {
               <textarea
                 id="shortDescription"
                 name="blogDesc"
-                value={createBlog.blogDesc}
+                value={updateBlog?.blogDesc}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
                 rows="3"
@@ -530,7 +568,7 @@ const EditPost = () => {
                   id="metaTitle"
                   name="metaTitle"
                   type="text"
-                  value={createBlog.metaTitle}
+                  value={updateBlog?.metaTitle}
                   onChange={handleChange}
                   placeholder="Meta Title"
                   className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
@@ -546,7 +584,7 @@ const EditPost = () => {
                 <select
                   id="robots"
                   name="robots"
-                  value={createBlog.robots}
+                  value={updateBlog?.robots}
                   onChange={handleChange}
                   className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
                 >
@@ -570,7 +608,7 @@ const EditPost = () => {
                 id="metaKeywords"
                 name="metaKeywords"
                 type="text"
-                value={createBlog.metaKeywords}
+                value={updateBlog?.metaKeywords}
                 onChange={handleChange}
                 placeholder="Meta Keywords"
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
@@ -586,7 +624,7 @@ const EditPost = () => {
               <textarea
                 id="metaDescription"
                 name="metaDescription"
-                value={createBlog.metaDescription}
+                value={updateBlog?.metaDescription}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
                 rows="3"
@@ -602,9 +640,9 @@ const EditPost = () => {
               Blog Content
             </label>
             <Editor
-              data={createBlog.content}
+              data={updateBlog?.content}
               onChange={(e) =>
-                setCreateBlog((prevState) => ({ ...prevState, content: e }))
+                setUpdateBlog((prevState) => ({ ...prevState, content: e }))
               }
               holder="create-blog-editor"
             />
@@ -632,7 +670,7 @@ const EditPost = () => {
               <select
                 id="status"
                 name="status"
-                value={createBlog.status}
+                value={updateBlog?.status}
                 onChange={handleChange}
                 className="border border-gray-300 rounded-lg py-2 px-4 w-full focus:outline-none focus:border-blue-800  transtion-all text-15"
               >
