@@ -57,7 +57,7 @@ const EditPost = () => {
               blogTitle: blogData.title,
               slug: blogData.slug,
               blogDesc: blogData.description,
-              content: JSON.parse(blogData.content),
+              content: blogData.content.blocks,
               tags: blogData.tags.map((tag) => tag._id),
               category:
                 blogData.category.length > 0 ? blogData.category[0]._id : "",

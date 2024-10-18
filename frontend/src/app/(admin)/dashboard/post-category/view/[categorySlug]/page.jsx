@@ -259,7 +259,7 @@ const ViewCategory = () => {
                       >
                         <Link
                           href={`/dashboard/post/edit/${blog._id}`}
-                          className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4]"
+                          className="shadow min-w-10 w-10 h-10 rounded-full p-0 bg-[#f7f8f9] hover:bg-[#d2d3d4] flex items-center justify-center"
                         >
                           <BsPencilSquare />
                         </Link>
