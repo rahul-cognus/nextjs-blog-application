@@ -57,7 +57,7 @@ const EditPost = () => {
               blogTitle: blogData.title,
               slug: blogData.slug,
               blogDesc: blogData.description,
-              content: blogData.content.blocks,
+              content: JSON.parse(blogData.content),
               tags: blogData.tags.map((tag) => tag._id),
               category:
                 blogData.category.length > 0 ? blogData.category[0]._id : "",
@@ -235,6 +235,9 @@ const EditPost = () => {
       toast.error("Failed to create Blog.", error);
     }
   };
+  // const Editor = dynamic(() => import("@/components/Editor/Editor"), {
+  //   ssr: false,
+  // });
   // const Editor = dynamic(() => import("@/components/Editor/Editor"), {
   //   ssr: false,
   // });
