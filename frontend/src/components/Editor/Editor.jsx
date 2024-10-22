@@ -53,16 +53,42 @@ const EDITOR_TOOLS = {
     class: Image,
     config: {
       uploader: {
-        uploadByFile: (file) => {
-          //this function will be triggered when image gets selected
-          return {
-            success: 1,
-            file: {
-              // / i'm creating a blob from the image file you can do your api call to upload the image somewhere and store the actual url
-              url: URL.createObjectURL(file),
-              raw: file,
-            },
-          };
+        uploadByFile: async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          try {
+            const res = await fetch("/api/upload", {
+              method: "POST",
+              body: formData,
+            });
+            if (!res.ok) {
+              throw new Error("Failed to upload image");
+            }
+            const data = await res.json();
+            // Return the uploaded image URL in a format Editor.js expects
+            return {
+              success: 1,
+              file: {
+                url: data.fileUrl, // Assuming the API returns the uploaded image URL as fileUrl
+              },
+            };
+          } catch (error) {
+            console.error("Error during image upload:", error);
+            return {
+              success: 0,
+              file: {
+                url: "",
+              },
+            };
+          }
+          // return {
+          //   success: 1,
+          //   file: {
+          //     // / i'm creating a blob from the image file you can do your api call to upload the image somewhere and store the actual url
+          //     url: URL.createObjectURL(file),
+          //     raw: file,
+          //   },
+          // };
         },
       },
     },
