@@ -534,7 +534,7 @@ const EditPost = () => {
                   {categoriesData.map((category) => {
                     return (
                       <option key={category._id} value={category._id}>
-                        {category.name}
+                        {category.categoryName}
                       </option>
                     );
                   })}
