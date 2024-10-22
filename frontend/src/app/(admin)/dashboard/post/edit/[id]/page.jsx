@@ -52,6 +52,7 @@ const EditPost = () => {
             toast.error(response.error);
           } else {
             const blogData = response.blog;
+            console.log(blogData.content, "content");
             setUpdateBlog({
               bannerImage: blogData.bannerImage,
               blogTitle: blogData.title,
@@ -241,6 +242,7 @@ const EditPost = () => {
   // const Editor = dynamic(() => import("@/components/Editor/Editor"), {
   //   ssr: false,
   // });
+
   return (
     <div className="container">
       <TitleHeader title={"Update a post"} />
@@ -642,13 +644,15 @@ const EditPost = () => {
             >
               Blog Content
             </label>
-            <Editor
-              data={updateBlog?.content}
-              onChange={(e) =>
-                setUpdateBlog((prevState) => ({ ...prevState, content: e }))
-              }
-              holder="create-blog-editor"
-            />
+            {updateBlog.content && (
+              <Editor
+                data={updateBlog?.content}
+                onChange={(e) =>
+                  setUpdateBlog((prevState) => ({ ...prevState, content: e }))
+                }
+                holder="create-blog-editor"
+              />
+            )}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center mb-6">
