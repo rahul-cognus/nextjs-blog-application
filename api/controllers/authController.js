@@ -170,44 +170,6 @@ exports.forgetPasswordController = async (req, res) => {
   }
 };
 
-// old controller
-// exports.resetPasswordController = async (req, res) => {
-//   const { resetToken } = req.params;
-//   const { newPassword } = req.body;
-//   try {
-//     // verify the reset token
-//     const decoded = jwt.verify(resetToken, process.env.RESET_PASSWORD_KEY);
-//     const userId = decoded._id;
-
-//     // find user by id
-//     const user = await userModel.findById(userId);
-//     // validation
-//     if (!user || user.resetLink !== resetToken) {
-//       res.status(400).send({
-//         success: false,
-//         message: "Invalid or expired token",
-//       });
-//     }
-//     // hash the new password
-//     const hashedPassword = await bcrypt.hash(newPassword, 10);
-//     // Update the user's password and remove the reset link token
-//     user.password = hashedPassword;
-//     user.resetLink = "";
-//     await user.save();
-
-//     res.status(200).send({
-//       success: true,
-//       message: "Password reset successful",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send({
-//       success: false,
-//       message: "Error in reset password",
-//       error,
-//     });
-//   }
-// };
 // new
 exports.resetPasswordController = async (req, res) => {
   const { resetToken } = req.params;

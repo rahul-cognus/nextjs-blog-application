@@ -5,14 +5,20 @@ const {
   signOutController,
   getAllUsersController,
   getUserByIdController,
+  getUserDataController,
 } = require("../controllers/userController");
 const { adminMiddleware } = require("../middlewares/adminMiddleware");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 //router object
 const router = express.Router();
 
 // GET ALL USERS || GET
 router.get("/getAllUsers", getAllUsersController);
+
+// get user
+router.get("/getUserData", authMiddleware, getUserDataController);
+
 // get user
 router.get("/getUserById/:userId", getUserByIdController);
 

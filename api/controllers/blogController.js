@@ -166,6 +166,10 @@ exports.updateBlogController = async (req, res) => {
     category,
     tags,
     status,
+    metaTitle,
+    robots,
+    metaKeywords,
+    metaDescription,
   } = req.body;
 
   try {
@@ -186,6 +190,10 @@ exports.updateBlogController = async (req, res) => {
     blog.category = category || blog.category;
     blog.tags = tags || blog.tags;
     blog.status = status || blog.status;
+    blog.metaTitle = metaTitle || blog.metaTitle;
+    blog.robots = robots || blog.robots;
+    blog.metaKeywords = metaKeywords || blog.metaKeywords;
+    blog.metaDescription = metaDescription || blog.metaDescription;
 
     await blog.save();
 

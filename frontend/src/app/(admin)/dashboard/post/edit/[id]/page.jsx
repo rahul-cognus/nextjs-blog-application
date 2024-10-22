@@ -204,7 +204,11 @@ const EditPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetchData("/blog/create-blog", "POST", updateBlog);
+      const response = await fetchData(
+        `/blog/update-blog/${id}`,
+        "PUT",
+        updateBlog
+      );
 
       if (response.error) {
         // Handle error notification
@@ -212,28 +216,13 @@ const EditPost = () => {
       } else {
         if (response.success == true) {
           toast.success(response.message);
-          // Clear the form
-          // setUpdateBlog({
-          //   bannerImage: null,
-          //   blogTitle: "",
-          //   slug: "",
-          //   blogDesc: "",
-          //   content: null,
-          //   tags: [],
-          //   category: "",
-          //   status: "draft",
-          //   metaTitle: "",
-          //   robots: "",
-          //   metaKeywords: "",
-          //   metaDescription: "",
-          // });
         } else {
           toast.warning(response.message);
         }
       }
     } catch (error) {
       // Handle error notification
-      toast.error("Failed to create Blog.", error);
+      toast.error("Failed to Update Blog.", error);
     }
   };
   // const Editor = dynamic(() => import("@/components/Editor/Editor"), {
