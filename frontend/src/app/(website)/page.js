@@ -17,7 +17,7 @@ export default async function Home() {
       <TrendingStripSlider />
       <HighlightCard />
       <TopHighlight posts={posts} />
-      <SponsoredSlider />
+      <SponsoredSlider posts={posts} />
     </div>
   );
 }

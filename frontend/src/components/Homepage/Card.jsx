@@ -10,6 +10,9 @@ const Card = ({
   categorySlug,
   categoryTextColor,
   categoryBackgroundColor,
+  authorName,
+  profilePicture,
+  updatedAt,
 }) => {
   return (
     <div className={`bg-white rounded-xl overflow-hidden grow`}>
@@ -40,25 +43,31 @@ const Card = ({
         </h4>
         <p className="text-[#595D69] text-15 line-clamp-3 ">{description}</p>
         {/* <!-- Card info --> */}
-        {/* <ul className="flex items-center space-x-2 mt-4 text-sm">
+        <ul className="flex items-center space-x-2 mt-4 text-sm">
           <li className="flex items-center">
             <Image
               width={100}
               height={100}
               className="w-8 h-8 rounded-full"
-              src={item.authorImg}
+              src={`/${profilePicture}`}
               alt="avatar"
             />
             <span className="ml-2 text-[#595D69] text-15">
               by{" "}
               <Link href="#" className=" btn-link">
-                {item.authorName}
+                {authorName}
               </Link>
             </span>
           </li>
           <li className="mx-4 size-1 rounded-full bg-[#595D69]"></li>
-          <li className="ml-auto text-[#595D69] text-15">{item.date}</li>
-        </ul> */}
+          <li className="ml-auto text-[#595D69] text-15">
+            {new Date(updatedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </li>
+        </ul>
       </div>
     </div>
   );
