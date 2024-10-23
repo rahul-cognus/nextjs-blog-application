@@ -41,6 +41,7 @@ const PostCategory = () => {
       {/* category card */}
       <div className="grid grid-cols-3 gap-8">
         {categoriesData.map((category) => {
+          console.log("category data", category);
           return (
             <CategoryCard
               key={category._id}

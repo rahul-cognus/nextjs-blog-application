@@ -43,9 +43,9 @@ const CategoryCard = ({
     <div className="w-full border rounded-xl">
       <div className="flex items-center gap-4 p-4 border-b">
         <div
-          className={`shadow rounded-full bg-${categoryBackgroundColor} w-14 h-14 flex items-center justify-center text-${categoryTextColor}`}
+          className={`shadow rounded-full ${categoryBackgroundColor} w-14 h-14 flex items-center justify-center ${categoryTextColor}`}
         >
-          <FaCircle className={`text-xs text-${categoryTextColor} `} />
+          <FaCircle className={`text-xs ${categoryTextColor} `} />
         </div>
         <h3>{categoryTitle}</h3>
       </div>

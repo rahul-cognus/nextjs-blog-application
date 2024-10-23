@@ -1,63 +1,39 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Cards = ({ cardData }) => {
-  const cardIsArray = Array.isArray(cardData);
+const Card = ({ title, description, bannerImage, categoryName }) => {
   return (
-    <>
-      {cardIsArray ? 
-        cardData.map((item, index) => {
-          return (
-            <Card key={index} item={item} index ={index} />
-          )
-        })
-        :
-        <Card item={cardData} index={0} />
-      }
-    </>
-  );
-};
-
-const Card = ({item,index}) => {
-  return(
-    <div
-      key={index}
-      className={`bg-white rounded-xl overflow-hidden grow`}
-    >
+    <div className={`bg-white rounded-xl overflow-hidden grow`}>
       {/* <!-- Card img --> */}
       <div className="relative rounded-xl overflow-hidden">
         <Image
           width={600}
           height={450}
           className="w-full"
-          src={item.imageSrc}
+          src={bannerImage}
           alt="Card image"
         />
-        {item.category && (
+        {/* {categoryName && (
           <div className="absolute bottom-0 flex flex-col justify-between p-3">
             <Link
               href="#"
               className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}
             >
               <span className="size-2 flex rounded-full"></span>
-              {item.category}
+              {categoryName}
             </Link>
           </div>
-        )}
+        )} */}
       </div>
       <div className="py-3">
-        <h4 className={`${item.titleStyle} font-bold text-[#191A1F]`}>
+        <h4 className={`font-bold text-[#191A1F]`}>
           <Link href="post-single.html" className=" btn-link">
-            {item.title}
+            {title}
           </Link>
         </h4>
-        {item.para && 
-          <p className="text-[#595D69] text-15 line-clamp-3 ">
-            {item.para}
-          </p>
-        }
+        <p className="text-[#595D69] text-15 line-clamp-3 ">{description}</p>
         {/* <!-- Card info --> */}
-        <ul className="flex items-center space-x-2 mt-4 text-sm">
+        {/* <ul className="flex items-center space-x-2 mt-4 text-sm">
           <li className="flex items-center">
             <Image
               width={100}
@@ -74,13 +50,11 @@ const Card = ({item,index}) => {
             </span>
           </li>
           <li className="mx-4 size-1 rounded-full bg-[#595D69]"></li>
-          <li className="ml-auto text-[#595D69] text-15">
-            {item.date}
-          </li>
-        </ul>
+          <li className="ml-auto text-[#595D69] text-15">{item.date}</li>
+        </ul> */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Cards;
+export default Card;
