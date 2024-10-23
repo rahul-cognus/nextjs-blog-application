@@ -87,14 +87,19 @@ const TopHighlight = ({ posts }) => {
         />
         <div className="grid grid-rows-6 grid-cols-1 gap-4 my-4  md:grid-rows-3 md:grid-cols-2 md:gap-8 md:my-8">
           {posts?.blogs?.map((post) => {
-            console.log("post", post.category[0].categoryName);
+            console.log("post", post.category[0]);
             return (
               <Card
                 key={post._id}
                 title={post.title}
                 description={post.description}
                 bannerImage={post.bannerImage}
-                categoryName={post.categoryName}
+                categoryName={post.category[0].categoryName}
+                categorySlug={post.category[0].categorySlug}
+                categoryTextColor={post.category[0].categoryTextColor}
+                categoryBackgroundColor={
+                  post.category[0].categoryBackgroundColor
+                }
               />
             );
           })}

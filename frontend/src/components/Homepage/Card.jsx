@@ -1,7 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaCircle } from "react-icons/fa";
 
-const Card = ({ title, description, bannerImage, categoryName }) => {
+const Card = ({
+  title,
+  description,
+  bannerImage,
+  categoryName,
+  categorySlug,
+  categoryTextColor,
+  categoryBackgroundColor,
+}) => {
   return (
     <div className={`bg-white rounded-xl overflow-hidden grow`}>
       {/* <!-- Card img --> */}
@@ -13,17 +22,15 @@ const Card = ({ title, description, bannerImage, categoryName }) => {
           src={bannerImage}
           alt="Card image"
         />
-        {/* {categoryName && (
-          <div className="absolute bottom-0 flex flex-col justify-between p-3">
-            <Link
-              href="#"
-              className={`flex items-center gap-2 text-xs px-2 py-1 rounded ${item.categoryStyle}`}
-            >
-              <span className="size-2 flex rounded-full"></span>
-              {categoryName}
-            </Link>
-          </div>
-        )} */}
+        {categoryName && (
+          <Link
+            href={`/${categorySlug}`}
+            className={`absolute bottom-4 left-4 flex items-center gap-2 text-[13px] px-2 py-1 rounded ${categoryTextColor} ${categoryBackgroundColor}`}
+          >
+            <FaCircle className={`text-xs ${categoryTextColor} `} />
+            {categoryName}
+          </Link>
+        )}
       </div>
       <div className="py-3">
         <h4 className={`font-bold text-[#191A1F]`}>
